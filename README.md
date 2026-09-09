@@ -15,13 +15,21 @@ mkdir -p docs
 cp -r ../course-templates/requirements docs/
 ```
 
-That gives you `docs/requirements/` with all six files. On Windows, copy the folder in File Explorer if you prefer. Then commit them on a branch and open a pull request, the same way as any other change.
+That gives you `docs/requirements/` with all seven files. On Windows, copy the folder in File Explorer if you prefer. Then commit them on a branch and open a pull request, the same way as any other change.
 
 Do not fork this repository. You are copying files into your own project, not tracking this one.
 
 ## What is here
 
 ### `requirements/`
+
+**Before your first client meeting**, this one:
+
+| File | What it holds |
+|---|---|
+| `client-interview-guide.md` | Your question script for a client meeting, and the record of what was said in it |
+
+Work it with your agent before you walk in, take it into the meeting on the scribe's laptop, and commit it the same day. Copy it once per meeting as `client-interview-YYYY-MM-DD.md`, so the template stays blank for the next one.
 
 **Week 3**, start these three:
 
@@ -39,7 +47,7 @@ Do not fork this repository. You are copying files into your own project, not tr
 | `business-rules.md` | The policies, regulations, and formulas your client's business already has |
 | `software-requirements-specification.md` | Quality attributes, interfaces, data, constraints, and links to everything above |
 
-Copy all six now. You will not need the week-4 files yet, and reading their instructions before your client meeting is not wasted time.
+Copy all seven now. You will not need the week-4 files yet, and reading their instructions before your client meeting is not wasted time.
 
 More folders arrive as the course reaches them.
 
