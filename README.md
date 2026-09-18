@@ -13,9 +13,10 @@ git clone https://github.com/tcu-cosc-40943/course-templates.git
 cd your-team-repo
 mkdir -p docs
 cp -r ../course-templates/requirements docs/
+cp ../course-templates/traceability.md docs/
 ```
 
-That gives you `docs/requirements/` with all seven files. On Windows, copy the folder in File Explorer if you prefer. Then commit them on a branch and open a pull request, the same way as any other change.
+That gives you `docs/requirements/` with all seven files, plus `docs/traceability.md`. On Windows, copy them in File Explorer if you prefer. Then commit them on a branch and open a pull request, the same way as any other change.
 
 Do not fork this repository. You are copying files into your own project, not tracking this one.
 
@@ -47,7 +48,11 @@ Work it with your agent before you walk in, take it into the meeting on the scri
 | `business-rules.md` | The policies, regulations, and formulas your client's business already has |
 | `software-requirements-specification.md` | Quality attributes, interfaces, data, constraints, and links to everything above |
 
-Copy all seven now. You will not need the week-4 files yet, and reading their instructions before your client meeting is not wasted time.
+Copy all of them now. You will not need the week-4 files yet, and reading their instructions before your client meeting is not wasted time.
+
+### `traceability.md`
+
+**Week 4**, alongside the three above. It holds the links between the documents: feature to use case area, and business rule to what enforces it. It goes in `docs/`, not `docs/requirements/`, because from week 8 it also maps design, code, and tests. If you already copied `requirements/`, copy this one file now.
 
 More folders arrive as the course reaches them.
 
