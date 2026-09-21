@@ -21,6 +21,8 @@ _If two words in your project mean the same thing and nothing says so, your team
 
 _An agent cannot resolve this on its own. Asked to add a feature, it reads what is in the repository and imitates it. If the repository is inconsistent it will faithfully reproduce the inconsistency, and it will invent a plausible synonym for anything the repository never names. A glossary in the repository is the only thing that stops it, because the repository is the whole of the agent's memory of your project._
 
+_There is a second cost, and it arrives before any code is written. **An agent does not read your repository, it searches it**, and it builds the search out of the words you used. If you ask about a "peer review score" in a codebase that calls it a peer evaluation, the first search returns nothing. The agent does not stop; it widens, reads whatever it lands on, and gets to the right file eventually, having spent context and time on the detour. Every term you and your client agree on, written down here and used everywhere, is one search that lands first time._
+
 _The other half is human. When your client says "cycle" in one sentence and "sprint" in the next, that is your signal to ask which one they mean, in the meeting, while they are in front of you. An agent reading the transcript later cannot ask._
 
 ## The entries that earn their place
