@@ -14,9 +14,10 @@ cd your-team-repo
 mkdir -p docs
 cp -r ../course-templates/requirements docs/
 cp ../course-templates/traceability.md docs/
+cp -r ../course-templates/design docs/
 ```
 
-That gives you `docs/requirements/` with all seven files, plus `docs/traceability.md`. On Windows, copy them in File Explorer if you prefer. Then commit them on a branch and open a pull request, the same way as any other change.
+That gives you `docs/requirements/` with all seven files, `docs/traceability.md`, and `docs/design/`. On Windows, copy them in File Explorer if you prefer. Then commit them on a branch and open a pull request, the same way as any other change.
 
 Do not fork this repository. You are copying files into your own project, not tracking this one.
 
@@ -53,6 +54,24 @@ Copy all of them now. You will not need the week-4 files yet, and reading their 
 ### `traceability.md`
 
 **Week 4**, alongside the three above. It holds the links between the documents: feature to use case area, and business rule to what enforces it. It goes in `docs/`, not `docs/requirements/`, because from week 8 it also maps design, code, and tests. If you already copied `requirements/`, copy this one file now.
+
+### `design/`
+
+**Week 6**, for Checkpoint 1:
+
+| File | What it holds |
+|---|---|
+| `architectural-design.md` | Your architecture-of-record: every use case area, component, and external system named, the requirements that shape the system, and the decisions that are expensive to change |
+
+Each section says which checkpoint it is due at; leave the later ones as they are. If you cloned this repository earlier in the term, update your clone first, then copy the folder:
+
+```bash
+git -C ../course-templates pull
+mkdir -p docs/design
+cp ../course-templates/design/architectural-design.md docs/design/
+```
+
+The filled-in example is [Project Pulse's architecture-of-record](https://github.com/Washingtonwei/project-pulse/blob/main/docs/design/architectural-design.md).
 
 More folders arrive as the course reaches them.
 
