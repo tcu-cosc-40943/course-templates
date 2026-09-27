@@ -70,7 +70,7 @@ _Due: Checkpoint 1._
 
 _[One C4 context diagram: your system as a single box, every kind of user, and **every external system** it talks to (email, payment, an identity provider, a client database, an LLM, a file store). An external system you discover in November is a schedule risk you could have seen in October._
 
-_Draw the **trust boundary**: the line between what you control and what you do not. Everything that crosses it is where security requirements apply. Then write two or three sentences: which users are inside, what sensitive data the system holds, and which external systems receive any of it._
+_The **trust boundary** is not drawn here. You name it in writing in section 8.1, as Project Pulse does._
 
 _Example:]_
 
@@ -118,6 +118,8 @@ _[One row per use case area in your [use cases](../requirements/use-cases.md), t
 
 _**Responsibility** is one sentence, what the component owns, not how it works. **Depends on** names other components and external systems, never classes. **Status** is `provisional` until the component has been built through at least one use case, and `proven` after that. At Checkpoint 1 every row is `provisional`; Checkpoint 2 turns at least one to `proven`._
 
+_Project Pulse's component tables also name each component's package. They can because its code exists; yours does not yet, so a row here is a name and a responsibility, and packages come with the design-of-record in week 7._
+
 _Example:]_
 
 | Use case area | Component | Responsibility | Depends on | Status |
@@ -145,8 +147,9 @@ _Due: Checkpoint 3. [Where each container runs, how a change reaches it, and wha
 
 _Due: named at Checkpoint 1, detailed at Checkpoint 2._
 
-_[Three short paragraphs, each citing the `SEC-*` requirement it answers:_
+_[Four short paragraphs. The last three each cite the `SEC-*` requirement they answer:_
 
+- _**Trust boundary:** the line between what you control and what you do not. Name the container that is the boundary and what sits outside it (the browser, every external system). Every request that crosses it is authenticated and authorized, and it covers every path your deployable answers, framework endpoints included. Project Pulse's Security & Compliance section shows the shape in three sentences._
 - _**Authentication:** how a user proves who they are, and who issues the credential (your system, the client's sign-on, a third party)._
 - _**Authorization:** the roles, and the rule for what a user may see beyond their role (a patron sees only their own orders). The second part is where most real breaches happen._
 - _**Sensitive data:** what personal or regulated data the system stores, in which container, and which external systems receive any of it._
