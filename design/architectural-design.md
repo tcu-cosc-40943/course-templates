@@ -15,7 +15,7 @@ _**What it is not.** A second copy of your requirements. The specification says 
 
 _**The test for what belongs here.** Decide now what is hard to reverse, affects the whole system, and is forced by a quality attribute or a constraint: how many deployables, where the data lives, how users sign in, which external systems you depend on. Leave to per-area design what is local and cheap to change: class names, endpoint shapes, table columns._
 
-_**Structure.** The sections follow **arc42** (Starke and Hruschka), with **C4** diagrams (Simon Brown) for context and containers, written as mermaid so they diff in git. Sections that do not apply to a student project have been dropped. The full worked example is Project Pulse's [architecture-of-record](https://github.com/Washingtonwei/project-pulse/blob/main/docs/design/architectural-design.md); read it for the shape, then write your own, because your client's quality attributes are not Project Pulse's.]_
+_**Structure.** The sections follow **arc42** (Starke and Hruschka), with **C4** diagrams (Simon Brown) for context and containers, written as mermaid so they diff in git. All twelve arc42 sections are here in arc42's order and numbering; only subsections that do not apply to a student project (stakeholders, the requirements overview, the quality tree) have been dropped. arc42 orders sections by topic, not by when you write them, so Checkpoint 1 covers sections 1–5, 8.1, and 9, and sections 6 and 7 come later. The full worked example is Project Pulse's [architecture-of-record](https://github.com/Washingtonwei/project-pulse/blob/main/docs/design/architectural-design.md); read it for the shape, then write your own, because your client's quality attributes are not Project Pulse's.]_
 
 ## Identifiers
 
@@ -62,7 +62,7 @@ _Due: Checkpoint 1._
 
 _[The constraints the architecture has to honor. They are already written as `CO-*` in section 2.4 of your specification, and `OE-*` in section 2.3; **list the identifiers here, do not restate them.** Add one sentence only where a constraint narrows an architectural choice in a way that is not obvious from its text._
 
-_Your technology stack is a constraint only if something external fixes it: the client's IT department, an existing system, or the person who maintains this after you graduate. A stack your team chose is a decision, and it goes in section 6 with the alternative you rejected.]_
+_Your technology stack is a constraint only if something external fixes it: the client's IT department, an existing system, or the person who maintains this after you graduate. A stack your team chose is a decision, and it goes in section 9 with the alternative you rejected.]_
 
 ## 3. Context and Scope
 
@@ -100,7 +100,7 @@ C4Context
 
 _Due: Checkpoint 1._
 
-_[Three to five bullets: the load-bearing moves, each pointing at the decision in section 6 that explains it and the quality goal it serves. If a bullet points at no decision, either it is not load-bearing or a decision is missing.]_
+_[Three to five bullets: the load-bearing moves, each pointing at the decision in section 9 that explains it and the quality goal it serves. If a bullet points at no decision, either it is not load-bearing or a decision is missing.]_
 
 ## 5. Building Block View
 
@@ -110,7 +110,7 @@ _Due: Checkpoint 1. This section is most of what your TA checks._
 
 _[One C4 container diagram: the separately running or separately stored pieces inside your system box. For most projects that is a front end, a back end, and a database, and sometimes a file store. Name each container's technology. Every external system from section 3 appears again here, attached to the container that talks to it._
 
-_Three containers is a normal answer. If you have more than five, check each one against section 6: which decision, driven by which quality attribute, requires it to run separately?]_
+_Three containers is a normal answer. If you have more than five, check each one against section 9: which decision, driven by which quality attribute, requires it to run separately?]_
 
 ### 5.2 Use case areas and components
 
@@ -131,11 +131,37 @@ _Example:]_
 
 _[Check before Checkpoint 1: every area in your use case file appears in the first column, and every external system in section 3 appears in some Depends on cell.]_
 
-## 6. Architecture Decisions
+## 6. Runtime View
+
+_Due: Checkpoint 2. [One sequence diagram, for the use case your proving slice builds, from the user's action through every container and external system it touches. Leave this section empty until the slice exists; a sequence diagram of code nobody has written describes a guess.]_
+
+## 7. Deployment View
+
+_Due: Checkpoint 3. [Where each container runs, how a change reaches it, and what happens to state on a restart. Filled in once your pipeline exists, after week 11.]_
+
+## 8. Crosscutting Concepts
+
+### 8.1 Security
+
+_Due: named at Checkpoint 1, detailed at Checkpoint 2._
+
+_[Three short paragraphs, each citing the `SEC-*` requirement it answers:_
+
+- _**Authentication:** how a user proves who they are, and who issues the credential (your system, the client's sign-on, a third party)._
+- _**Authorization:** the roles, and the rule for what a user may see beyond their role (a patron sees only their own orders). The second part is where most real breaches happen._
+- _**Sensitive data:** what personal or regulated data the system stores, in which container, and which external systems receive any of it._
+
+_Secrets (passwords, API keys, connection strings) never appear in this document or in the repository. Say where they will live, not what they are.]_
+
+### 8.2 Other concepts
+
+_Due: when they appear. [Error handling, logging, validation, time zones: anything every component must do the same way. Add a subsection the first time two components would otherwise do it differently.]_
+
+## 9. Architecture Decisions
 
 _Due: the table and one decision at Checkpoint 1; more as they are made._
 
-### 6.1 Architecturally significant requirements
+### 9.1 Architecturally significant requirements
 
 _[Not every requirement shapes the architecture. The **architecturally significant requirements** are the few that do: quality attributes and constraints where a wrong guess costs a redesign, not a bug fix. Functionality can be delivered by many structures; these are what choose among them._
 
@@ -145,7 +171,7 @@ _List three to six, ranked by importance to your client times difficulty to achi
 |---|---|---|---|---|
 | 1 | _Payroll data confidential_ | _`SEC-payroll-auth`_ | _High × Medium_ | _`KD-payment-isolated`_ |
 
-### 6.2 Key decisions
+### 9.2 Key decisions
 
 _[One entry per decision, in the form below. Checkpoint 1 requires exactly one: **`KD-deployment-shape`**, whether your system ships as one deployable or several, and why. Every team makes this decision, and it is where over-engineering usually shows up first. Add others when you make them; do not invent them to fill the section._
 
@@ -161,35 +187,9 @@ _Example:]_
 - **Rejected:** _Separate services for ordering, menu, and delivery. They would add network calls, three deployments, and failure modes between them, to solve a scaling problem 400 users do not have._
 - **Trade-off:** _The system scales only as a whole, and a bad deploy takes all of it down._
 
-## 7. Crosscutting Concepts
-
-### 7.1 Security
-
-_Due: named at Checkpoint 1, detailed at Checkpoint 2._
-
-_[Three short paragraphs, each citing the `SEC-*` requirement it answers:_
-
-- _**Authentication:** how a user proves who they are, and who issues the credential (your system, the client's sign-on, a third party)._
-- _**Authorization:** the roles, and the rule for what a user may see beyond their role (a patron sees only their own orders). The second part is where most real breaches happen._
-- _**Sensitive data:** what personal or regulated data the system stores, in which container, and which external systems receive any of it._
-
-_Secrets (passwords, API keys, connection strings) never appear in this document or in the repository. Say where they will live, not what they are.]_
-
-### 7.2 Other concepts
-
-_Due: when they appear. [Error handling, logging, validation, time zones: anything every component must do the same way. Add a subsection the first time two components would otherwise do it differently.]_
-
-## 8. Runtime View
-
-_Due: Checkpoint 2. [One sequence diagram, for the use case your proving slice builds, from the user's action through every container and external system it touches. Leave this section empty until the slice exists; a sequence diagram of code nobody has written describes a guess.]_
-
-## 9. Deployment View
-
-_Due: Checkpoint 3. [Where each container runs, how a change reaches it, and what happens to state on a restart. Filled in once your pipeline exists, after week 11.]_
-
 ## 10. Quality Scenarios
 
-_Due: one scenario at Checkpoint 2; one per top-ranked requirement in section 6.1 by Checkpoint 3._
+_Due: one scenario at Checkpoint 2; one per top-ranked requirement in section 9.1 by Checkpoint 3._
 
 _[A quality attribute says how good; a scenario says how you will know. Each one is: a **source** does a **stimulus** in an **environment**, the system gives a **response**, and a **measure** tells you it worked. The measure cites the specification's attribute for its number; it never introduces one._
 
@@ -223,6 +223,6 @@ _[Domain terms live in your [project glossary](../requirements/project-glossary.
 
 _[Delegate: drawing the C4 diagrams in mermaid from your use case list and your specification's interfaces; checking that every use case area has a component and every external system has a component that depends on it; checking that every identifier this document cites exists in the document that owns it; drafting the rejected alternative for a decision you have already made._
 
-_Keep human: the ranking in section 6.1 and every `KD-*`. The decisions are the part of this document your client and next spring's team will hold you to, and they depend on facts about your client that are not in any file._
+_Keep human: the ranking in section 9.1 and every `KD-*`. The decisions are the part of this document your client and next spring's team will hold you to, and they depend on facts about your client that are not in any file._
 
-_**The specific failure to watch for: over-engineering.** Ask an agent for an architecture and it will propose the one it has seen most often in writing, which is built for a company a thousand times your size: microservices, a message queue, Kubernetes, a cache in front of a database that holds ten thousand rows. Every one of those is a real answer to a problem you do not have, and each one adds something that can break at 2 a.m. with nobody to fix it. For every container and every decision the agent proposes, ask which requirement in section 6.1 forces it. If the answer is none, cut it.]_
+_**The specific failure to watch for: over-engineering.** Ask an agent for an architecture and it will propose the one it has seen most often in writing, which is built for a company a thousand times your size: microservices, a message queue, Kubernetes, a cache in front of a database that holds ten thousand rows. Every one of those is a real answer to a problem you do not have, and each one adds something that can break at 2 a.m. with nobody to fix it. For every container and every decision the agent proposes, ask which requirement in section 9.1 forces it. If the answer is none, cut it.]_
