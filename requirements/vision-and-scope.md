@@ -247,6 +247,8 @@ _[Put the product in context relative to other systems and the user's environmen
       PP --> LMS[(Learning management system)]
     ```
 
+_Draw the first version here. When your team writes its architecture-of-record, the context diagram moves to section 3 of [architectural-design.md](../design/architectural-design.md) in C4 form, and this section keeps a link to it instead of its own drawing._
+
 ### 4.2 Major Features and Scope
 
 _[List and briefly describe the major product features. A feature is a high-level **capability** the system provides in order to deliver a benefit: an externally visible service, not an implementation detail.]_
