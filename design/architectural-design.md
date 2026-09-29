@@ -224,7 +224,25 @@ _Secrets (passwords, API keys, connection strings) never appear in this document
 
 ### 8.2 Other concepts
 
-_Due: when they appear. [Error handling, logging, validation, time zones: anything every component must do the same way. Add a subsection the first time two components would otherwise do it differently.]_
+_Due: before your first agent build (the week 8 studio), then whenever a new one appears. [Anything every component must do the same way. Your agent starts every session with no memory of the last, so a convention that is not written here gets reinvented each time. Start with error handling and time; one or both is in almost every proving slice. Add the others when the last column says they are coming._
+
+_One short subsection each: the rule in one sentence, why, and the file that shows it done right once one exists. Put the one-line instruction in your charter too, citing this subsection, because the charter is what your agent always reads. Project Pulse's Crosscutting Concepts section shows the shape.]_
+
+| Concept | The question it settles | When it usually bites |
+|---|---|---|
+| _Error handling_ | _What does a failure look like to the caller, and where is it caught?_ | _The second endpoint_ |
+| _Time and time zones_ | _Whose clock decides a deadline, what zone is stored, and can a test set the time?_ | _The first deadline or "submitted late"_ |
+| _API conventions_ | _What shape does every response take, and how are endpoints named?_ | _The second endpoint_ |
+| _Validation_ | _Where is input checked, and which check is the one that counts?_ | _The first form_ |
+| _Configuration and secrets_ | _What differs between development and production, and where does it live?_ | _The first deploy_ |
+| _Logging_ | _What is logged, at what level, and what must never be?_ | _The first bug you cannot reproduce_ |
+| _Persistence and concurrency_ | _Where does a transaction begin and end, and what happens when two people edit at once?_ | _The first shared record_ |
+| _Auditing_ | _Who changed what, and when?_ | _The first "who did this?"_ |
+| _Testing_ | _Which kinds of test, at which layer, with what data?_ | _The first pull request_ |
+
+_Example, from the Cafeteria Ordering System:_
+
+**8.2.1 Error handling.** _Every endpoint returns `{ "ok": false, "error": { "code", "message" } }` on failure, produced by one exception handler; no controller builds its own error body, and no response carries an exception's own message. Why: the ordering screen and the menu screen share one error display, and an exception's message can reveal the database behind it. Shown in: `ApiExceptionHandler`._
 
 ## 9. Architecture Decisions
 
