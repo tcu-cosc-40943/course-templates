@@ -209,6 +209,8 @@ _Section 4.4 of [vision and scope](../requirements/vision-and-scope.md) says who
 
 ## 8. Crosscutting Concepts
 
+_[arc42 leaves this section an open list of concepts. This template fixes its first entry, 8.1 Security, because Checkpoint 1 asks for the trust boundary; 8.2 holds every other concept.]_
+
 ### 8.1 Security
 
 _Due: named at Checkpoint 1, detailed at Checkpoint 2._
