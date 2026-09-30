@@ -228,7 +228,7 @@ _Secrets (passwords, API keys, connection strings) never appear in this document
 
 _Due: before your first agent build (the week 8 studio), then whenever a new one appears. [Anything every component must do the same way. Your agent starts every session with no memory of the last, so a convention that is not written here gets reinvented each time. Start with error handling and time; one or both is in almost every proving slice. Add the others when the last column says they are coming._
 
-_One short subsection each: the rule in one sentence, why, and the file that shows it done right once one exists. Put the one-line instruction in your charter too, citing this subsection, because the charter is what your agent always reads. Project Pulse's Crosscutting Concepts section shows the shape.]_
+_One short subsection each: the rule in one sentence, why, and the file that shows it done right once one exists. Put the one-line instruction in your charter too, citing this subsection, because the charter is what your agent always reads. Project Pulse's Crosscutting Concepts section is a worked example; its headings differ from this template's.]_
 
 | Concept | The question it settles | When it usually bites |
 |---|---|---|
