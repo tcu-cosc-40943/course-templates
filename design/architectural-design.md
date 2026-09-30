@@ -28,7 +28,7 @@ _[The new identifiers this document creates. Everything else it cites keeps the 
 | `RISK-<slug>` | Technical risks | `RISK-payroll-api-unavailable` |
 | `TD-<slug>` | Technical debt the architecture knowingly carries | `TD-no-rate-limiting` |
 
-_[Project Pulse numbers its decisions and scenarios (`KD-1`, `QS-1`). Yours use slugs, like every other identifier in your project, so an inserted decision renumbers nothing and a citation says what it points at.]_
+_[These are slugs, like every other identifier in your project, so an inserted decision renumbers nothing and a citation says what it points at. Project Pulse uses the same form: `KD-modular-monolith`, `QS-cross-team-denial`.]_
 
 ## Revision History
 
