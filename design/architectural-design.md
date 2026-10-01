@@ -226,7 +226,7 @@ _Secrets (passwords, API keys, connection strings) never appear in this document
 
 ### 8.2 Other concepts
 
-_Due: before your first agent build (the week 8 studio), then whenever a new one appears. [Anything every component must do the same way. Your agent starts every session with no memory of the last, so a convention that is not written here gets reinvented each time. Start with error handling and time; one or both is in almost every proving slice. Add the others when the last column says they are coming._
+_Due: before your first agent build (the week 8 studio), then whenever a new one appears. [Anything every component must do the same way. Your agent starts every session with no memory of the last, so a convention that is not written here gets reinvented each time. Start with API conventions, error handling, and time; at least one is in almost every proving slice. Add the others when the last column says they are coming._
 
 _One short subsection each: the rule in one sentence, why, and the file that shows it done right once one exists. Put the one-line instruction in your charter too, citing this subsection, because the charter is what your agent always reads. Project Pulse's Crosscutting Concepts section is a worked example; its headings differ from this template's.]_
 
@@ -235,6 +235,7 @@ _One short subsection each: the rule in one sentence, why, and the file that sho
 | _Error handling_ | _What does a failure look like to the caller, and where is it caught?_ | _The second endpoint_ |
 | _Time and time zones_ | _Whose clock decides a deadline, what zone is stored, and can a test set the time?_ | _The first deadline or "submitted late"_ |
 | _API conventions_ | _What shape does every response take, and how are endpoints named?_ | _The second endpoint_ |
+| _Code conventions_ | _Which libraries and idioms does every file use, and which are banned? (Formatting belongs to a formatter, not here.)_ | _The first file an agent writes_ |
 | _Validation_ | _Where is input checked, and which check is the one that counts?_ | _The first form_ |
 | _Configuration and secrets_ | _What differs between development and production, and where does it live?_ | _The first deploy_ |
 | _Logging_ | _What is logged, at what level, and what must never be?_ | _The first bug you cannot reproduce_ |
