@@ -73,6 +73,21 @@ cp ../course-templates/design/architectural-design.md docs/design/
 
 The filled-in example is [Project Pulse's architecture-of-record](https://github.com/Washingtonwei/project-pulse/blob/main/docs/design/architectural-design.md).
 
+**Week 7**, for your proving slice:
+
+| File | What it holds |
+|---|---|
+| `design-of-record.md` | How one use case area's use cases will be built: the sequence diagrams, the API contract, the key decisions and what they rejected, and the tests that will prove each flow. One per area, written before the code and approved by pull request |
+
+Copy it once per use case area, named for the lowercase area code, so your proving slice's area gets the first one:
+
+```bash
+git -C ../course-templates pull
+cp ../course-templates/design/design-of-record.md docs/design/ord.md   # your area code, not ord
+```
+
+The template's header gives the order to write it in (sketch it yourselves, then the agent drafts, then compare) and ends with the questions test, which goes in your pull request. The filled-in example is [Project Pulse's `not.md`](https://github.com/Washingtonwei/project-pulse/blob/main/docs/design/not.md).
+
 More folders arrive as the course reaches them.
 
 ## How to work them
