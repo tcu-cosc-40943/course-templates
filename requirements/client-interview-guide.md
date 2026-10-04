@@ -25,6 +25,7 @@ This is about order, not silence. Some clients want to think out loud with you, 
 
 - [ ] **Three roles assigned.** Lead asks and moves the agenda, one person not four. Scribe writes and does not ask, capturing exact words, especially nouns. Observer watches what is not said: hesitation, the topic they keep returning to, who they defer to.
 - [ ] **Everyone has read the client's pitch slides** (TCU Online) and written questions individually before you merged them. The ones two of you wrote independently are the ones to ask.
+- [ ] **Your agent has interviewed you on the brief.** Ask it: "Interview me about this project, a few questions at a time, with multiple-choice answers. When I answer *ask the client*, add the question to this guide." Answer what the brief already tells you; everything else is a question for this meeting. Never pick an option for the client.
 - [ ] **Shortlist sent to the client the day before.** They arrive with answers instead of promises.
 - [ ] **This file open on the scribe's laptop**, with someone on paper as backup.
 - [ ] **Someone owns the clock.** You will not get through this guide, and that is expected.
