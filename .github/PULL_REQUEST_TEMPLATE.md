@@ -1,5 +1,6 @@
 <!-- Title: one imperative line that stands alone in the history,
-     e.g. "Email only students who have not submitted". -->
+     e.g. "Email only students who have not submitted".
+     At most three lines per section; never restate the diff. -->
 Closes # <!-- delete this line if there is no issue -->
 Traces to: <!-- UC-<AREA>-<slug>, BR-<slug>, docs/design/<area>.md, or "none: refactor | config" -->
 
