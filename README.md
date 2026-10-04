@@ -88,6 +88,24 @@ cp ../course-templates/design/design-of-record.md docs/design/ord.md   # your ar
 
 The template's header gives the order to write it in (sketch it yourselves, then the agent drafts, then compare) and ends with the questions test, which goes in your pull request. The filled-in example is [Project Pulse's `not.md`](https://github.com/Washingtonwei/project-pulse/blob/main/docs/design/not.md).
 
+### `.github/`
+
+**Week 8**, before your first implementation pull request:
+
+| File | What it holds |
+|---|---|
+| `pull_request_template.md` | The description every pull request starts from: the use case it implements, its proof (tests mapped to your design's test list, runtime, visual), what you verified and what you did not, where a reviewer should look hardest, and what the agent review found |
+
+GitHub fills a new pull request's description from this file once it is on your default branch:
+
+```bash
+git -C ../course-templates pull
+mkdir -p .github
+cp ../course-templates/.github/pull_request_template.md .github/
+```
+
+Delete what does not apply (Visual for a back-end change, Where to look hardest when no trunk code changed) rather than filling it with "N/A". Keep Verified and not verified on every pull request: an honest "not verified" tells your reviewer where the risk is, and it is not held against you. For a design pull request, replace the template with the questions-test list the design gate asks for.
+
 More folders arrive as the course reaches them.
 
 ## How to work them
