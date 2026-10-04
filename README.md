@@ -94,19 +94,19 @@ The template's header gives the order to write it in (sketch it yourselves, then
 
 | File | What it holds |
 |---|---|
-| `pull_request_template.md` | The description every pull request starts from, whether it changes code, the specification, or a design: why, what changed, how it was verified and what was not, and where your reviewer should focus |
+| `PULL_REQUEST_TEMPLATE.md` | The description every pull request starts from, whether it changes code, the specification, or a design: why, what changed, how it was verified and what was not, and where your reviewer should focus |
 
 GitHub fills a new pull request's description from this file once it is on your default branch:
 
 ```bash
 git -C ../course-templates pull
 mkdir -p .github
-cp ../course-templates/.github/pull_request_template.md .github/
+cp ../course-templates/.github/PULL_REQUEST_TEMPLATE.md .github/
 ```
 
-The comments in the template list what counts as evidence for code, for a specification change, and for a design (where the questions test goes under How it was verified). They do not appear in the posted description, so the description stays four short sections. Fill in **Not verified** on every pull request: an honest answer tells your reviewer where the risk is, and it is not held against you.
+The comments in the template list what counts as evidence for code, for a specification change, and for a design (where the questions test goes under How it was verified, in a collapsed `<details>` block). They do not appear in the posted description, so the description stays four short sections. Fill in **Not verified** on every pull request: an honest answer tells your reviewer where the risk is, and it is not held against you.
 
-**Keep it to one screen.** If the description will not fit, the pull request does more than one thing; split it. If your agent drafts the description, add this line to your `CLAUDE.md`: "Pull request descriptions follow `.github/pull_request_template.md`. At most three lines per section. Never restate the diff."
+**Keep it to one screen.** If the description will not fit, the pull request does more than one thing; split it. If your agent drafts the description, add this line to your `CLAUDE.md`: "Pull request descriptions follow `.github/PULL_REQUEST_TEMPLATE.md`: at most three lines per section (a design's questions-test list goes in a collapsed `<details>` block, outside the cap), and never restate the diff."
 
 More folders arrive as the course reaches them.
 
