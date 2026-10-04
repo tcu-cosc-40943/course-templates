@@ -1,24 +1,26 @@
+<!-- Title: one imperative line that stands alone in the history,
+     e.g. "Email only students who have not submitted". -->
 Closes #
-Implements: UC-<AREA>-<slug> (design: docs/design/<area>.md), or "none: refactor | config | docs"
+Traces to: <!-- UC-<AREA>-<slug>, BR-<slug>, docs/design/<area>.md, or "none: refactor | config" -->
 
-## Scope
-<!-- What changed, in a sentence or two, shorter than the diff. Name any existing
-     behavior this change must not alter. -->
+## Why
+<!-- The problem, in one or two sentences, readable without opening the issue. -->
 
-## Proof
-- **Tests:** design test-list row → test name, one per row. A row with no test is a gap; say so.
-- **Existing behavior:** tests showing it still works. Required when you touch trunk code.
-- **Runtime:** what you ran end to end, and what you saw.
-- **Visual:** screenshot or short video. UI changes only; delete otherwise.
+## What changed
+<!-- A summary, not a narration of the diff. Decisions the code does not show and the
+     alternative you rejected. Anything you deliberately left unchanged. -->
 
-## Verified and not verified
-<!-- What you checked yourself, what you took on trust from the agent or a tool,
-     and what nobody checked. -->
+## How it was verified
+- **Verified:**
+- **Not verified:**
+<!-- Evidence, not assertion.
+     Code: tests mapped to the design's test list (row → test), tests showing existing
+     behavior still works, what you ran end to end, a screenshot for a UI change.
+     Specification: the source (client meeting, open issue) and what else you updated so
+     the documents still agree (glossary, traceability). Design: the questions test.
+     Agent review: what a fresh-context review found and what you did about each.
+     Not verified: what nobody checked. An honest answer here is never penalized. -->
 
-## Where to look hardest
-<!-- Only if you touched trunk code (security rules, shared state, code many paths
-     depend on, anything hard to roll back): name the files and lines, and why they
-     are risky. Delete this section otherwise. -->
-
-## Agent review
-<!-- Findings from a fresh-context review, and what you did about each. -->
+## Reviewer focus
+<!-- Where to look hardest and what feedback you need: the riskiest part (a security rule,
+     shared code, a glossary term or business rule others cite) and where to start reading. -->
