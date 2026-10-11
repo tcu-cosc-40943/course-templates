@@ -55,6 +55,8 @@ Copy all of them now. You will not need the week-4 files yet, and reading their 
 
 **Week 4**, alongside the three above. It holds the links between the documents: feature to use case area, and business rule to what enforces it. It goes in `docs/`, not `docs/requirements/`, because from week 8 it also maps design, code, and tests. If you already copied `requirements/`, copy this one file now.
 
+**Week 8:** section 3 is now drafted: one row per use case and FR, with Build, Verify, and **Release**, your release plan, due at Checkpoint 2. Your copy already holds your first two tables, so paste section 3 into it rather than copying the file again.
+
 ### `design/`
 
 **Week 6**, for Checkpoint 1:

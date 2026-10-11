@@ -13,7 +13,7 @@ _**What this file is.** The map of your project, from the reason something exist
 
 _**Why it exists before any code does.** The question it answers in week 4 is "did we specify everything we promised, and nothing we did not?" The question it answers in week 12 is "this broke, what was it supposed to do, and who asked for it?" Those are the same question, and the file that answers the second one is the file you started in week 4. Starting it later means reconstructing links from memory, which is the same work done worse._
 
-_**It grows.** Week 4 fills in two tables. Week 8 adds the columns for design, code, and tests once those exist, and the tables below leave room for them. Do not add empty columns now._
+_**It grows.** Week 4 fills in the first two tables. Week 8 adds the third, which links each use case to its design, code, and tests and carries your release plan._
 
 _**Run the checks by hand this week.** Each table below ends with two checks. They are cheap, and they fail loudly. Hand the whole file to your agent and ask it to run them, then verify what it tells you, because a check reported as passing by the thing that also wrote the table is not evidence._
 
@@ -61,11 +61,30 @@ _Worked example, from Project Pulse:]_
 
 ---
 
-## 3. From here (week 8)
+## 3. Use case to design, code, and test (week 8)
 
-_[Leave this section as it is until week 8. It says what the two tables above grow into, so that nobody restructures the file in the meantime._
+_[In week 8 the spine extends past the use case: **business objective → feature → use case area → use case → design → code → test.** This table has one row per use case, plus one row per non-use-case FR (`FR-<AREA>-<slug>`) that needs building. Add a row the day a use case is written, not the day it is built._
 
-_In week 8 the spine extends past the use case: **business objective → feature → use case area → use case → design → code → test.** A third table arrives with one row per use case and columns for the design element, the source files, and the tests, tracked as two separate states, built and verified, so that a use case which is built but untested stays visibly unverified rather than being absorbed into a single "done".]_
+_**Build** and **Verify** are two separate states, so that a use case which is built but untested stays visibly unverified rather than being absorbed into a single "done":_
+
+- _Build: `❌ Not started`, `📐 Designed` (its design pull request merged), `🟡 In progress`, `✅ Built`. It says nothing about tests._
+- _Verify: `✅ Verified` (tests cover the main flow and every extension, and pass), `🟡 Partial` (the Tests cell names the gap), `🔎 None`, or left blank while there is nothing built to verify._
+
+_**Release** is your **release plan**: the release the row's code ships in. It tracks the build only; a shipped row with missing tests keeps its Release, and the gap shows in Verify. Use `v0.1.0` (the proving slice, Checkpoint 2), `v0.2.0` (Checkpoint 3), `v1.0.0` (the December MVP), `Spring`, or `Out`. Every row has one by Checkpoint 2; an empty cell is work nobody planned. Place rows by risk first, then by what your client needs first, then by dependency, and change a Release cell only by pull request, saying why. Your client's agreement on scope by feature stays in vision and scope's MVP Scope section; this column carries it down to use cases. How to forecast from it: [Process and Planning](https://washingtonwei.github.io/cosc-40943/modules/process-and-planning/#46-from-estimates-to-a-release-plan)._
+
+_Worked example, from Project Pulse, which numbers its releases from its own tags:]_
+
+| Use case or FR | Build | Verify | Release | Design | Code | Tests |
+|---|---|---|---|---|---|---|
+| `UC-EVA-submit-evaluation` | ✅ Built | ✅ Verified | `≤ v1.5.0` |  | `EvaluationController.addPeerEvaluation`, `SubmitTeamsEvaluations.vue` | `EvaluationServiceTest`, `EvaluationIntegrationTest` (main flow and extensions) |
+| `UC-NOT-remind-non-submitters` | 📐 Designed |  | `v1.6.0` | `design/not.md` |  |  |
+| `FR-NOT-weekly-reminder` | 📐 Designed |  | `v1.6.0` | `design/not.md` | `WeeklyReminderScheduler` (predates the amended requirement) | `WeeklyReminderSchedulerTest` (predates it too) |
+| `UC-AI-critique` | ❌ Not started |  | `v1.8.0` |  |  |  |
+
+**Checks.**
+
+1. **Every use case and FR has a row, and every row has a Release.** A missing row is a requirement nothing tracks; an empty Release is work nobody planned.
+2. **Nothing reads Verified without a test you can name.** Open the test cited in each `✅ Verified` row and confirm it exercises that use case, extensions included.
 
 ---
 
