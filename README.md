@@ -110,6 +110,27 @@ The comments in the template list what counts as evidence for code, for a specif
 
 **Keep it to one screen.** If the description will not fit, the pull request does more than one thing; split it. If your agent drafts the description, add this line to your `CLAUDE.md`: "Pull request descriptions follow `.github/PULL_REQUEST_TEMPLATE.md`: at most three lines per section (a design's questions-test list goes in a collapsed `<details>` block, outside the cap), and never restate the diff."
 
+### `.claude/commands/`
+
+**Week 10**, for your proving slice and every use case after it:
+
+| File | What it holds |
+|---|---|
+| `design.md` | `/design <UC-ID>`: the agent reads the use case, its rules, your architecture-of-record, and the existing code, drafts the area's design-of-record from the template, lists what it had to assume, and stops before any code |
+| `implement.md` | `/implement <UC-ID>`: the agent builds a merged design on a branch (any refactor first, then the trunk, then the leaves), writes a test for every row of the design's test list, checks the diff against your crosscutting concepts, and drafts the pull request |
+
+Copy them into your repository's root and merge them by pull request. Claude Code then runs them as slash commands:
+
+```bash
+git -C ../course-templates pull
+mkdir -p .claude/commands
+cp ../course-templates/.claude/commands/design.md ../course-templates/.claude/commands/implement.md .claude/commands/
+```
+
+Each stops for a person where judgment goes in: `/design` when you accept the draft's shape, `/implement` before a refactor the design did not name and after the trunk commit. Neither approves its own work; a teammate reviews and merges the pull request. Run each in a fresh session. On Copilot CLI, follow the files' phases by hand, as a checklist.
+
+**Customize them.** Once copied, they are your team's files: change them by pull request to fit your paths, stack, test commands, and the checks your reviews keep catching. Keep the stops for a person. How they work in studio: [week 10](https://washingtonwei.github.io/cosc-40943/studio/#week-10-oct-28-and-30-catch-up-on-your-proving-slice).
+
 More folders arrive as the course reaches them.
 
 ## How to work them
