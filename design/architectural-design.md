@@ -242,6 +242,7 @@ _One short subsection each: the rule in one sentence, why, and the file that sho
 | _Persistence and concurrency_ | _Where does a transaction begin and end, and what happens when two people edit at once?_ | _The first shared record_ |
 | _Auditing_ | _Who changed what, and when?_ | _The first "who did this?"_ |
 | _Testing_ | _Which kinds of test, at which layer, with what data?_ | _The first pull request_ |
+| _Static analysis_ | _Which analyzers and formatter run, which command must pass before a merge, and how is a finding settled: fixed, suppressed with a reason, or its rule turned off? (A rule turned off is recorded in the tool's configuration, with the reason, not here.)_ | _The first agent-written pull request_ |
 
 _Example, from the Cafeteria Ordering System:_
 
