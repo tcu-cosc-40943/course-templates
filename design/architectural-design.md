@@ -242,11 +242,13 @@ _One short subsection each: the rule in one sentence, why, and the file that sho
 | _Persistence and concurrency_ | _Where does a transaction begin and end, and what happens when two people edit at once?_ | _The first shared record_ |
 | _Auditing_ | _Who changed what, and when?_ | _The first "who did this?"_ |
 | _Testing_ | _Which kinds of test, at which layer, with what data?_ | _The first pull request_ |
-| _Static analysis_ | _Which analyzers and formatter run, which command must pass before a merge, and how is a finding settled: fixed, suppressed with a reason, or its rule turned off? (A rule turned off is recorded in the tool's configuration, with the reason, not here.)_ | _The first agent-written pull request_ |
+| _Static analysis (written when your gate goes in)_ | _Which analyzers and formatter run, what command is the gate, and how is a finding settled: fixed, turned off with a reason, or baselined?_ | _The first pull request an agent opens_ |
 
-_Example, from the Cafeteria Ordering System:_
+_Examples, from the Cafeteria Ordering System:_
 
 **8.2.1 Error handling.** _Every endpoint returns `{ "ok": false, "error": { "code", "message" } }` on failure, produced by one exception handler; no controller builds its own error body, and no response carries an exception's own message. Why: the ordering screen and the menu screen share one error display, and an exception's message can reveal the database behind it. Shown in: `ApiExceptionHandler`._
+
+**8.2.7 Logging.** _Each class that logs has one logger. `error` means someone must act, `warn` that something degraded, `info` a business event, `debug` detail for development. Every caught exception that is not rethrown is logged with its stack trace, the one exception handler's included. Log identifiers, never content: an order or user ID, never an email address, a password, a token, or a request body. Logs go to standard output, where the platform collects them. Why: the first production bug is found from its log line or not at all, and a log is copied to more places than the database is. Shown in: `ApiExceptionHandler`, `OrderService`._
 
 ## 9. Architecture Decisions
 
