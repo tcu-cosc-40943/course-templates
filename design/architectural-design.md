@@ -25,7 +25,7 @@ _[The new identifiers this document creates. Everything else it cites keeps the 
 |---|---|---|
 | `KD-<slug>` | Key architectural decisions | `KD-single-deployable` |
 | `QS-<slug>` | Quality scenarios | `QS-cross-employee-order-denied` |
-| `RISK-<slug>` | Technical risks | `RISK-payroll-api-unavailable` |
+| `TRI-<slug>` | Technical risks (the `T` keeps them apart from the business `RI-*` in vision and scope) | `TRI-payroll-api-unavailable` |
 | `TD-<slug>` | Technical debt the architecture knowingly carries | `TD-no-rate-limiting` |
 
 _[These are slugs, like every other identifier in your project, so an inserted decision renumbers nothing and a citation says what it points at. Project Pulse uses the same form: `KD-modular-monolith`, `QS-cross-team-denial`.]_
@@ -163,7 +163,7 @@ C4Container
     Rel(menu, web, "Edits menu", "HTTPS")
     Rel(web, app, "Calls", "JSON/HTTPS")
     Rel(app, db, "Reads and writes", "JDBC")
-    Rel(app, payroll, "Submits payment requests", "not yet known: RISK-payroll-api-unavailable")
+    Rel(app, payroll, "Submits payment requests", "not yet known: TRI-payroll-api-unavailable")
     Rel(app, sso, "Verifies identity", "OpenID Connect")
     Rel(app, email, "Sends confirmations", "SMTP")
 ```
@@ -314,7 +314,7 @@ _A risk written as a category ("security", "performance") is not a risk. Write t
 
 | ID | Type | What could go wrong, and what it breaks | Mitigation or fix | Cites |
 |---|---|---|---|---|
-| _`RISK-payroll-api-unavailable`_ | _Risk_ | _Nobody has seen the Payroll System's interface. If it only accepts a nightly batch file, ordering cannot confirm payment at order time._ | _Ask for the interface document at the next client meeting; build Payment against a stub until then._ | _`DE-payroll-integration`, `OI-4`_ |
+| _`TRI-payroll-api-unavailable`_ | _Risk_ | _Nobody has seen the Payroll System's interface. If it only accepts a nightly batch file, ordering cannot confirm payment at order time._ | _Ask for the interface document at the next client meeting; build Payment against a stub until then._ | _`DE-payroll-integration`, `OI-4`_ |
 
 ## 12. Glossary
 
