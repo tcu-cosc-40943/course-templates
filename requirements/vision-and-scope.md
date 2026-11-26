@@ -22,7 +22,8 @@ _Identifiers here are **name-based slugs**, never numbers._
 | Business objective | `BO-<slug>` | `BO-grading-time` |
 | Success metric | `SM-<slug>` | `SM-submission-rate` |
 | Risk | `RI-<slug>` | `RI-cloud-cost` |
-| Assumption or dependency | `AS-<slug>` | `AS-client-maintains-stack` |
+| Business assumption | `BAS-<slug>` | `BAS-client-maintains-stack` |
+| Business dependency | `BDE-<slug>` | `BDE-campus-sign-in` |
 | Feature | `FEAT-<slug>` | `FEAT-performance-tracking` |
 
 _Coin each slug from the concept itself: short, kebab-case, unique within its space. **Never renumber, rename, or repoint an identifier.** A new item gets a new slug; a retired item keeps its slug and is marked withdrawn. Cite items by identifier, never by position in a list ("the third objective")._
@@ -183,13 +184,13 @@ _**State risks as mechanisms, not categories.** "Security risk" names a category
 
 ### 2.7 Business Assumptions and Dependencies
 
-_[An assumption is something you believe without proof, which would force this document to change if it turned out false. A dependency is something outside your control that the project relies on. Both live here under `AS-*`.]_
+_[An assumption is something you believe without proof, which would force this document to change if it turned out false. A dependency is something outside your control that the project relies on. Assumptions are keyed `BAS-*` and dependencies `BDE-*`; the `B` marks them as business-level, apart from the system-level `AS-*` and `DE-*` in your [specification](software-requirements-specification.md).]_
 
 _Examples:_
 
-- _`AS-ui-capacity`: Systems with appropriate user interfaces will be available for cafeteria employees to process the expected volume of meals ordered._
-- _`AS-delivery-staffing`: Cafeteria staff and vehicles will be available to deliver all meals within 15 minutes of the requested delivery time._
-- _`AS-restaurant-integration`: If a restaurant has its own online ordering system, the Cafeteria Ordering System must be able to communicate with it bi-directionally._
+- _`BAS-ui-capacity`: Systems with appropriate user interfaces will be available for cafeteria employees to process the expected volume of meals ordered._
+- _`BAS-delivery-staffing`: Cafeteria staff and vehicles will be available to deliver all meals within 15 minutes of the requested delivery time._
+- _`BDE-restaurant-integration`: If a restaurant has its own online ordering system, the Cafeteria Ordering System must be able to communicate with it bi-directionally._
 
 _**Checklist:** For each assumption, what happens to this project if it is false? If the answer is "nothing", it is not worth recording. If the answer is "we start over", raise it with your client this week._
 
