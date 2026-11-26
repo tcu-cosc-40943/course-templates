@@ -235,7 +235,7 @@ _File everything within 24 hours, while you still remember why each answer matte
 | 5 | Business rules catalog, week 4 |
 | 7, 9, 10 | Quality attributes, constraints, and external interfaces in the specification, week 4 |
 | 8, 12 | Stakeholder Profiles in [vision-and-scope.md](vision-and-scope.md) |
-| 8, 11 | Risks (`RI-<slug>`) and assumptions (`AS-<slug>`) in [vision-and-scope.md](vision-and-scope.md) |
+| 8, 11 | Risks (`RI-<slug>`), business assumptions (`BAS-<slug>`) and business dependencies (`BDE-<slug>`) in [vision-and-scope.md](vision-and-scope.md) |
 | 14 | Scope and the vision statement in [vision-and-scope.md](vision-and-scope.md) |
 | Anything unanswered | [OPEN-ISSUES.md](OPEN-ISSUES.md) |
 
