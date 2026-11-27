@@ -143,7 +143,7 @@ _Group them under sub-headings by concern, and write each one using an [EARS](ht
 _Examples:_
 
 - _`FR-AI-degradation`: While the external LLM service is unavailable, the system shall make AI features unavailable and keep the rest of Project Pulse working. Oracle: with the LLM service unreachable, an AI request reports that AI is unavailable, and a student can still edit and save a document section._
-- _`FR-NOT-weekly-reminder`: On a course section's weekly due day, the system shall email each student who owes a weekly activity report or peer evaluation one reminder listing what they owe. Oracle: on the due day, a student who has submitted gets no email and a student who has not gets exactly one._
+- _`FR-NOT-weekly-reminder`: When a course section's weekly due day arrives, the system shall email each student who owes an item due that day one reminder listing what they owe. Oracle: on the due day, a student who owes an item due that day gets exactly one email; a student who has submitted, or owes nothing due that day, gets none._
 
 _**Every requirement here needs an oracle.** If you cannot say how a tester would tell whether it holds, it is not a requirement yet.]_
 
@@ -224,11 +224,11 @@ _Example: `USE-wcag-aa`: All user-facing views shall conform to WCAG 2.1 level A
 
 ### 9.2 Performance
 
-_Example: `PER-report-load`: A peer evaluation report for a section of 80 students shall render within 2 seconds at the 95th percentile._
+_Example: `PER-report-load`: The instructor's weekly activity report and peer evaluation report views shall load within 500 milliseconds at the 95th percentile, under peak load near a deadline for a cohort of about 70 students._
 
 ### 9.3 Security
 
-_Example: `SEC-grades-confidential`: A student's peer evaluation grades shall be visible only to that student and to the instructors of their course section._
+_Example: `SEC-grades-confidential`: A student's peer evaluation grades shall be visible only to that student, the instructors of their course section, and their course's course admin._
 
 ### 9.4 Safety
 
