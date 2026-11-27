@@ -52,7 +52,7 @@ _[What the system is for: who wants it, why, and who will use it. Even though th
 
 _[What this specification covers and for which release.]_
 
-_Example: "This document describes the functional and nonfunctional requirements for release 1.0 of the Cafeteria Ordering System. It serves as the reference for the project's requirements, defining the scope, functionality, and constraints for stakeholders, developers, and testers."]_
+_Example: "This document describes the functional and nonfunctional requirements for release 1.0 of Project Pulse. It serves as the reference for the project's requirements, defining the scope, functionality, and constraints for stakeholders, developers, and testers."]_
 
 ### 1.3 Document conventions
 
@@ -87,9 +87,8 @@ _[The environment the software runs in: hardware, operating systems and versions
 
 _Examples:_
 
-- _`OE-supported-browsers`: The system shall operate correctly on the current and previous major versions of Chrome, Firefox, Safari, and Edge._
-- _`OE-server-platform`: The system shall run on a server running the current corporate-approved version of Linux._
-- _`OE-access-paths`: The system shall permit access from the corporate intranet, from a VPN connection, and from Android and iOS phones and tablets._
+- _`OE-supported-browsers`: Project Pulse shall run in the current released versions of Google Chrome, Mozilla Firefox, Microsoft Edge, and Apple Safari._
+- _`OE-https-access`: Project Pulse shall be reached over HTTPS from the campus network and from home connections._
 
 ### 2.4 Design and implementation constraints
 
@@ -97,9 +96,8 @@ _[Anything that limits the developers' options: corporate or regulatory policy, 
 
 _Examples:_
 
-- _`CO-database-engine`: The system shall use the corporate standard database engine._
-- _`CO-language-version`: The backend shall be written in Java 21._
-- _`CO-coding-standard`: Design, code, and maintenance documentation shall conform to the client's development standard._
+- _`CO-vue-spring-stack`: The client shall be implemented in Vue.js and the backend in Java using the Spring Boot framework, the technologies the department teaches and runs._
+- _`CO-no-ops-team`: Project Pulse shall be deployable and operable by one person without dedicated operations staff._
 
 _The constraint students forget: **who maintains this after you graduate, and what do they already know how to run?** If the answer is one person who knows Python, a Spring Boot service is a constraint violation nobody wrote down._
 
@@ -109,8 +107,8 @@ _[An assumption is a factor you believe true without proof, which would change t
 
 _Examples:_
 
-- _`AS-supported-browser`: Users access the system with a browser that supports the ECMAScript version the frontend targets._
-- _`DE-payroll-integration`: Operation depends on changes being made in the Payroll System to accept payment requests for meals ordered through this system._
+- _`AS-supported-browser`: Users reach Project Pulse through a supported, current web browser. If students use older browsers, the operating environment and the user interface requirements change._
+- _`DE-llm-service`: AI-assisted requirement review depends on the external LLM service. If it is unavailable, the AI features are unavailable while the rest of Project Pulse keeps working._
 
 ---
 
@@ -142,7 +140,10 @@ _Group them under sub-headings by concern, and write each one using an [EARS](ht
 - _**Optional:** Where `<feature is included>`, the `<system>` shall `<response>`._
 - _**Unwanted behavior:** If `<precondition>`, then the `<system>` shall `<response>`._
 
-_Example: `FR-SAVE-autosave-active`: While a student is editing a weekly activity report during an active week, the system shall persist the draft every 30 seconds._
+_Examples:_
+
+- _`FR-AI-degradation`: While the external LLM service is unavailable, the system shall make AI features unavailable and keep the rest of Project Pulse working. Oracle: with the LLM service unreachable, an AI request reports that AI is unavailable, and a student can still edit and save a document section._
+- _`FR-NOT-weekly-reminder`: On a course section's weekly due day, the system shall email each student who owes a weekly activity report or peer evaluation one reminder listing what they owe. Oracle: on the due day, a student who has submitted gets no email and a student who has not gets exactly one._
 
 _**Every requirement here needs an oracle.** If you cannot say how a tester would tell whether it holds, it is not a requirement yet.]_
 
@@ -227,7 +228,7 @@ _Example: `PER-report-load`: A peer evaluation report for a section of 80 studen
 
 ### 9.3 Security
 
-_Example: `SEC-authentication`: The system shall authenticate every request to a non-public endpoint, and shall reject unauthenticated requests without disclosing whether the requested resource exists._
+_Example: `SEC-grades-confidential`: A student's peer evaluation grades shall be visible only to that student and to the instructors of their course section._
 
 ### 9.4 Safety
 
