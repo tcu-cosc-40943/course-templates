@@ -138,7 +138,7 @@ _For each metric give the indicator, where the number comes from, what it is tod
 _Examples:_
 
 - _`SM-grading-time`: The instructor's time to grade one section's peer evaluations falls by 50% by the end of the first term of use. Source: the instructor's own time log. Baseline: the hours reported under the spreadsheet process. Measures `BO-grading-time`._
-- _`SM-submission-rate`: On-time submission of weekly activity reports and peer evaluations rises by 20% within one term. Source: the system's submission records, against the LMS records from before. Measures `BO-submission-rate`._
+- _`SM-submission-rate`: On-time submission of weekly activity reports and peer evaluations rises by 20% within one term. Source: the system's submission records. Baseline: the on-time rate in the LMS records for the previous term. Measures `BO-submission-rate`._
 
 _**How to elicit these.** Ask "how will you know this worked?", then ask what that number is today. If your client cannot say, ask who would know and whether the number is recorded anywhere. Clients often propose a metric the software cannot influence (revenue, headcount); trace it back to something your system actually changes._
 
@@ -250,10 +250,10 @@ _[Put the product in context relative to other systems and the user's environmen
 
     ```mermaid
     flowchart LR
-      Student[Student] --> PP[Project Pulse]
-      Instructor[Instructor] --> PP
-      PP --> Gmail[(Gmail)]
-      PP --> LMS[(Learning management system)]
+      Student[Student] -- Submits reports and evaluations --> PP[Project Pulse]
+      Instructor[Instructor] -- Reviews and grades --> PP
+      PP -- Sends reminder email --> Gmail[(Gmail)]
+      PP -- Sends section text for coaching --> LLM[(LLM service)]
     ```
 
 _Draw the first version here. When your team writes its architecture-of-record, the context diagram moves to section 3 of [architectural-design.md](../design/architectural-design.md) in C4 form, and this section keeps a link to it instead of its own drawing._
@@ -264,7 +264,7 @@ _[List each system outside your product that it interacts with: the same systems
 
 _Example:_
 
-- _`SYS-llm-service`: LLM service. A large language model run by an outside provider. Project Pulse sends it a section's text and receives coaching for the student. If it is unavailable, the AI assistants are switched off and authoring carries on without them._
+- _`SYS-llm-service`: LLM service. A large language model run by an outside provider. Project Pulse sends it a section's text and receives coaching for the student. If it is unavailable, the AI assistants say AI is temporarily unavailable and offer a retry; authoring carries on without them._
 
 ### 4.3 Major Features and Scope
 

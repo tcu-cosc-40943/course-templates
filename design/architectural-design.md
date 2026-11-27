@@ -315,7 +315,7 @@ _A risk written as a category ("security", "performance") is not a risk. Write t
 | ID | Type | What could go wrong, and what it breaks | Mitigation or fix | Cites |
 |---|---|---|---|---|
 | _`TRI-payroll-api-unavailable`_ | _Risk_ | _Nobody has seen the Payroll System's interface. If it only accepts a nightly batch file, ordering cannot confirm payment at order time._ | _Ask for the interface document at the next client meeting; build Payment against a stub until then._ | _`DE-payroll-integration`, `OI-4`_ |
-| _`TRI-public-grade-database`_ | _Risk_ | _The peer evaluation database holds student grades, is reachable from the public internet, and has no rate limiting. Anyone who finds its address can try passwords against it without being slowed down._ | _Allow connections only from the application's own network._ | _the `SEC-*` attribute behind it_ |
+| _`TRI-public-grade-database`_ | _Risk_ | _The peer evaluation database holds student grades, is reachable from the public internet, and has no rate limiting. Anyone who finds its address can try passwords against it without being slowed down._ | _Allow connections only from the application's own network._ | _`SEC-grades-confidential`_ |
 
 ## 12. Glossary
 
