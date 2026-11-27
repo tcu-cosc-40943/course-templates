@@ -19,11 +19,14 @@ _Identifiers here are **name-based slugs**, never numbers._
 
 | Space | Shape | Example |
 |---|---|---|
+| Business problem | `BP-<slug>` | `BP-manual-peer-evaluation-cycle` |
+| Business opportunity | `BOP-<slug>` | `BOP-requirements-drive-ai-coding` |
 | Business objective | `BO-<slug>` | `BO-grading-time` |
 | Success metric | `SM-<slug>` | `SM-submission-rate` |
 | Risk | `RI-<slug>` | `RI-cloud-cost` |
 | Business assumption | `BAS-<slug>` | `BAS-client-maintains-stack` |
 | Business dependency | `BDE-<slug>` | `BDE-campus-sign-in` |
+| External system | `SYS-<slug>` | `SYS-llm-service` |
 | Feature | `FEAT-<slug>` | `FEAT-performance-tracking` |
 
 _Coin each slug from the concept itself: short, kebab-case, unique within its space. **Never renumber, rename, or repoint an identifier.** A new item gets a new slug; a retired item keeps its slug and is marked withdrawn. Cite items by identifier, never by position in a list ("the third objective")._
@@ -48,7 +51,7 @@ _[Summarize the rationale and context for the new product, or for the changes to
 
 _**Step 1: Describe the business.** Introduce the organization. Cover what it does (industry, products, services), its size (employees, locations), and the goals that relate to the problem you are solving._
 
-_Example: "The client, XYZ Logistics, is a mid-sized shipping company that specializes in last-mile delivery services for e-commerce businesses. The company operates in five major cities, employs 200 delivery staff, and handles over 10,000 deliveries per day. The goal is to optimize delivery efficiency and customer satisfaction."_
+_Example: "The Department of Computer Science teaches a two-course senior design sequence in which each student team builds a real system for an external client. About 80 students in 16 teams take it each year. Two needs run through the course: keeping each student's weekly contribution visible within shared team work, and teaching students to write requirements a team and its client can rely on."_
 
 _**Checklist:** Would a reader who has never heard of this organization understand what it does and why this project exists?]_
 
@@ -77,13 +80,13 @@ _**Step 2: Write the prose.** Not every reader reads diagrams. Explain the flow 
 
 _**Step 3: List the current tools.** Enumerate what the process runs on today (spreadsheets, paper schedules, email, a legacy system) and give the limitation of each._
 
-_Example: "XYZ Logistics relies heavily on Excel spreadsheets for order management. Printed delivery schedules are distributed to drivers daily. These tools lack automation, making the process prone to human error and delays."_
+_Example: "Weekly activity reports are kept in shared Google Sheets, one per team per week. Peer evaluations are Excel forms that each student uploads to the LMS. Neither tool checks that a submission is complete, so missing columns and wrong formats surface only at grading."_
 
 _**Step 4: Name the pain points.** Highlight the inefficient, slow, or error-prone steps, using one or two specific examples rather than a general complaint._
 
-_Inefficiency example: "Manual entry of order details into Excel causes delays and transcription errors. During peak season, order entries pile up, delaying processing and delivery."_
+_Inefficiency example: "Submitting takes two systems and several steps: the team's Google Sheet on Monday, then the peer evaluation Excel form uploaded to the LMS on Tuesday. Under deadline pressure students forget one of the steps and lose credit."_
 
-_Time example: "Printing and distributing delivery schedules to drivers takes 2 hours daily, cutting into time available for deliveries."_
+_Time example: "Each week the instructor downloads every peer evaluation form, runs a program to parse and score them, compiles the comments, and uploads the results to the LMS: a manual cycle repeated for the whole cohort."_
 
 _**Step 5: Write for an outsider.** Assume your reader knows nothing about this domain. Define every domain term on first use and add it to the [project glossary](project-glossary.md)._
 
@@ -101,7 +104,12 @@ _[Projects are launched in the belief that creating or changing a product will p
 
 ### 2.1 Business Opportunity or Problem Statement
 
-_[State the problem being solved or the opportunity being exploited, in the client's own terms. One or two paragraphs. This is the answer to "why is anyone paying for this?"]_
+_[State each problem being solved, and each opportunity being exploited, in the client's own terms, one per item. A problem is keyed `BP-*` and an opportunity `BOP-*`. Together they answer "why is anyone paying for this?" For each one, say who is affected and how, and why solving it matters.]_
+
+_Examples:_
+
+- _`BP-manual-peer-evaluation-cycle`: The instructor scores every team's peer evaluations by hand each week, downloading every form from the LMS, running a program to parse and score them, compiling the comments, and uploading the results for the whole cohort._
+- _`BOP-requirements-drive-ai-coding`: As AI tools write more of the code, the quality of the requirements decides the quality of the result, so students who learn to write clear requirements get better AI-assisted implementations._
 
 ### 2.2 Business Objectives
 
@@ -123,18 +131,18 @@ _[Business objectives say what should improve. Success metrics tell you **whethe
 
 _Specify the indicators stakeholders will use to define and measure success on this project. Identify the factors with the greatest impact on achieving it, including factors outside the organization's control._
 
-_A success metric is sometimes the same statement as a business objective, when the objective happens to be measurable early. "Reduce time spent ordering chemicals to 10 minutes on 80 percent of orders" serves as both, because average order time can be measured during testing or shortly after release. Where an objective is measured a year out, write a metric that tracks the same thing on a shorter timeline: against an adoption objective measured annually, "track 60 percent of commercial chemical containers and 50 percent of proprietary chemicals within 4 weeks"._
+_A success metric is sometimes the same statement as a business objective, when the objective happens to be measurable early. "Reduce the instructor's time to grade peer evaluations by 50%" serves as both, because grading time can be measured in the first weeks of use. Where an objective is measured a year out, write a metric that tracks the same thing on a shorter timeline._
 
 _For each metric give the indicator, where the number comes from, what it is today (the baseline), and what counts as success by when. A metric with no baseline is not measurable, and "we do not track that today" is a finding worth recording rather than a gap to paper over._
 
 _Examples:_
 
-- _`SM-cafeteria-adoption`: 75% of employees who used the cafeteria at least 3 times per week during Q3 2013 use the Cafeteria Ordering System at least once a week, within 6 months following initial release._
-- _`SM-satisfaction`: The average rating on the quarterly cafeteria satisfaction survey increases by 0.5 on a scale of 1 to 6 from the Q3 2013 rating within 3 months following initial release, and by 1.0 within 12 months._
+- _`SM-grading-time`: The instructor's time to grade one section's peer evaluations falls by 50% by the end of the first term of use. Source: the instructor's own time log. Baseline: the hours reported under the spreadsheet process. Measures `BO-grading-time`._
+- _`SM-submission-rate`: On-time submission of weekly activity reports and peer evaluations rises by 20% within one term. Source: the system's submission records, against the LMS records from before. Measures `BO-submission-rate`._
 
 _**How to elicit these.** Ask "how will you know this worked?", then ask what that number is today. If your client cannot say, ask who would know and whether the number is recorded anywhere. Clients often propose a metric the software cannot influence (revenue, headcount); trace it back to something your system actually changes._
 
-_**Choose your success metrics wisely. Make sure they measure what is important to the business, not just what is easy to measure.** "Reduce product development costs by 20 percent" is easy to measure, and also easy to achieve by laying off employees or investing less in innovation, neither of which is the intended outcome. Prefer a metric that gets worse if you build the wrong thing._
+_**Choose your success metrics wisely. Make sure they measure what is important to the business, not just what is easy to measure.** "Reduce grading time by 50 percent" is easy to measure, and also easy to achieve by grading less carefully, which is not the intended outcome. Prefer a metric that gets worse if you build the wrong thing._
 
 _**Checklist:** Does each metric name its source, its baseline, and its deadline? Can this software actually move it? Can it be measured during testing or shortly after release, rather than a year later? Does every business objective have at least one metric behind it, and does every metric trace back to an objective?]_
 
@@ -176,11 +184,12 @@ _[Summarize the major business risks of building this product, and of not buildi
 
 _Examples:_
 
-- _`RI-union-contract`: The Cafeteria Employees Union might require its contract be renegotiated to reflect the new employee roles and operating hours. (Probability 0.6, Impact 3)_
-- _`RI-low-adoption`: Too few employees might use the system, reducing the return on the development investment and on the changes to cafeteria operating procedures. (Probability 0.3, Impact 9)_
-- _`RI-no-delivery-partners`: Local restaurants might not agree to offer delivery, reducing employee satisfaction with the system and their use of it. (Probability 0.3, Impact 3)_
+- _`RI-adoption-resistance`: Students used to Word or Google Docs may resist a structured tool, especially if it is more confusing than the documents it replaces. (Probability 0.4, Impact 7) Mitigation: pilot with one section and watch where students stall._
+- _`RI-cloud-cost`: The department must budget for the cloud fees every year the system runs. (Probability 0.9, Impact 3) Accepted: the department owns the budget, and no software change reduces it._
 
-_**State risks as mechanisms, not categories.** "Security risk" names a category and tells nobody anything. "The peer evaluation database holds student grades, is reachable from the public internet, and has no rate limiting" names a mechanism someone can act on._
+_**State risks as mechanisms, not categories.** "Adoption risk" names a category and tells nobody anything. "Students used to Google Docs give up on the structured editor if writing a section takes longer than it did in the document" names a mechanism someone can act on._
+
+_A technical risk in the system's design (an unproven technology, an integration nobody has tried, a database open to the internet) is not a business risk. It goes in section 11 of your [architectural design](../design/architectural-design.md) as a `TRI-*`._
 
 ### 2.7 Business Assumptions and Dependencies
 
@@ -188,9 +197,8 @@ _[An assumption is something you believe without proof, which would force this d
 
 _Examples:_
 
-- _`BAS-ui-capacity`: Systems with appropriate user interfaces will be available for cafeteria employees to process the expected volume of meals ordered._
-- _`BAS-delivery-staffing`: Cafeteria staff and vehicles will be available to deliver all meals within 15 minutes of the requested delivery time._
-- _`BDE-restaurant-integration`: If a restaurant has its own online ordering system, the Cafeteria Ordering System must be able to communicate with it bi-directionally._
+- _`BAS-formal-docs-required`: The senior design course keeps requiring formal requirements documents. If it drops them, the requirements authoring half of the product has no users._
+- _`BDE-university-lms`: Final grades are still entered in the university's learning management system. If the LMS changes, the instructor's last manual step changes with it._
 
 _**Checklist:** For each assumption, what happens to this project if it is false? If the answer is "nothing", it is not worth recording. If the answer is "we start over", raise it with your client this week._
 
@@ -250,7 +258,15 @@ _[Put the product in context relative to other systems and the user's environmen
 
 _Draw the first version here. When your team writes its architecture-of-record, the context diagram moves to section 3 of [architectural-design.md](../design/architectural-design.md) in C4 form, and this section keeps a link to it instead of its own drawing._
 
-### 4.2 Major Features and Scope
+### 4.2 External Systems
+
+_[List each system outside your product that it interacts with: the same systems your context diagram shows. Give each one its own `SYS-*` item, so a use case can name it as an actor. For each, say who runs it, what your product sends to it or receives from it, and what happens to your product if it is unavailable.]_
+
+_Example:_
+
+- _`SYS-llm-service`: LLM service. A large language model run by an outside provider. Project Pulse sends it a section's text and receives coaching for the student. If it is unavailable, the AI assistants are switched off and authoring carries on without them._
+
+### 4.3 Major Features and Scope
 
 _[List and briefly describe the major product features. A feature is a high-level **capability** the system provides in order to deliver a benefit: an externally visible service, not an implementation detail.]_
 
@@ -271,7 +287,7 @@ _Examples:_
 - _`FEAT-performance-tracking`: Submit and review weekly activity reports and peer evaluations._
 - _`FEAT-grade-generation`: Generate weekly activity report and peer evaluation grades for an entire section._
 
-### 4.3 MVP Scope
+### 4.4 MVP Scope
 
 _[Of the features above, which ones ship in the release you actually deliver in December? Name them by identifier. Then name what is explicitly **out**, also by identifier, so it is on the record.]_
 
@@ -281,7 +297,7 @@ _**Explicitly out of scope:** `FEAT-...` (reason), `FEAT-...` (reason)_
 
 _Ask your client the question directly: "If we can deliver only one of these in December, which one is it?" The answer is worth more than the rest of the meeting. A client who cannot choose has not thought about it yet, which is itself something you need to know now rather than in November._
 
-### 4.4 Deployment Considerations
+### 4.5 Deployment Considerations
 
 _[Summarize what it takes to get this into its operating environment. How will users reach it? Are they spread across locations or time zones? What infrastructure has to change for capacity, network access, data storage, or data migration? Who trains the users? Who maintains it after this team graduates, and what does that person already know how to run?]_
 
