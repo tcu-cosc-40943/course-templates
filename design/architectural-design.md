@@ -116,7 +116,7 @@ _Each bullet is one sentence, and it cites what explains it: the key decision in
 
 _Example:]_
 
-- _**One deployable with one managed database** (`KD-deployment-shape`), because one person runs the system (quality goal 2)._
+- _**One deployable with one managed database and one file store** (`KD-deployment-shape`), because one person runs the system (quality goal 2)._
 - _**The AI proxy is the only component that calls the LLM service** (section 5.2), so student work leaves the system in exactly one place, and an outage is handled in one place (quality goal 1, `FR-AI-degradation`)._
 - _**Divided by use case area**, Peer Evaluation, Weekly Activity Report, Rubric, and the rest, each owning its own rules, so a change to peer evaluations never touches activity reports (quality goal 3)._
 
@@ -162,7 +162,7 @@ C4Container
     Rel(api, llm, "Requests AI review", "HTTPS")
 ```
 
-_The system is one application and one database because one person runs it (`KD-deployment-shape`). The front end is a separate container only because it runs in the browser; it ships inside the application's package. Uploaded files sit in Blob Storage because large binary files do not belong in the database._
+_The system is one application, one database and one file store because one person runs it (`KD-deployment-shape`). The front end is a separate container only because it runs in the browser; it ships inside the application's package. Uploaded files sit in Blob Storage because large binary files do not belong in the database._
 
 ### 5.2 Use case areas and components
 
@@ -242,7 +242,7 @@ _Examples, from Project Pulse:_
 
 **8.2.1 Error handling.** _Every endpoint returns `{ "flag", "code", "message", "data" }`, and a failure gets that shape from one exception handler; no controller builds its own error body. Why: every screen shows failures through one shared request handler, which relies on that shape. Shown in: `ExceptionHandlerAdvice`._
 
-**8.2.7 Logging.** _Each class that logs has one logger. `error` means someone must act, `warn` that something degraded, `info` a business event, `debug` detail for development. Every caught exception that is not rethrown is logged with its stack trace, the one exception handler's included. Log identifiers, never content: a student or team ID, never an email address, a password, a token, or a request body. Logs go to standard output, where the platform collects them. Why: the first production bug is found from its log line or not at all, and a log is copied to more places than the database is. Shown in: `ExceptionHandlerAdvice`, `WeeklyReminderScheduler`._
+**8.2.7 Logging.** _Each class that logs has one logger. `error` means someone must act, `warn` that something degraded, `info` a business event, `debug` detail for development. Every caught exception that is not rethrown is logged with its stack trace, the one exception handler's fallback included. Log identifiers, never content: a student or team ID, never an email address, a password, a token, or a request body. Logs go to standard output, where the platform collects them. Why: the first production bug is found from its log line or not at all, and a log is copied to more places than the database is. Shown in: `ExceptionHandlerAdvice`, `WeeklyReminderScheduler`._
 
 ## 9. Architecture Decisions
 
