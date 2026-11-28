@@ -1,11 +1,11 @@
 ---
 description: Design one use case into its area's design-of-record, drafted from the template. Stops before any code.
-argument-hint: <UC-ID>  (for example /design UC-ORD-place-order)
+argument-hint: <UC-ID>  (for example /design UC-EVA-submit-evaluation)
 ---
 
 # /design: turn a use case into a design-of-record
 
-Take the use case named in `$ARGUMENTS` (for example `UC-ORD-place-order`) and produce its **design-of-record**: the document for its use case area at `docs/design/<area>.md`, written from the team's template. This is the first of two build stages. **It stops before any code.** `/implement <UC-ID>` is the second stage, and it builds only from a design this command leaves behind after a teammate has merged it.
+Take the use case named in `$ARGUMENTS` (for example `UC-EVA-submit-evaluation`) and produce its **design-of-record**: the document for its use case area at `docs/design/<area>.md`, written from the team's template. This is the first of two build stages. **It stops before any code.** `/implement <UC-ID>` is the second stage, and it builds only from a design this command leaves behind after a teammate has merged it.
 
 The use case is the contract, its business rules and cited `FR-*` are the acceptance criteria, and the glossary fixes the vocabulary. The design says only *how* the code will realize them. It **cites** `UC-*`, `FR-*`, and `BR-*` by identifier and never restates them.
 
@@ -51,7 +51,7 @@ Draft every section of the template **in the proposal itself**, so the shape is 
 
 ## Phase 3: write the design-of-record (after the shape is accepted)
 
-Work on a branch, never on `main`. Write or revise `docs/design/<area>.md` from the template, named for the lowercase area code (`ord.md` for `UC-ORD-*`):
+Work on a branch, never on `main`. Write or revise `docs/design/<area>.md` from the template, named for the lowercase area code (`eva.md` for `UC-EVA-*`):
 
 - **One document per area.** If the file exists, append this use case's identifiers to *Realizes*, append its sequence diagram, API contract rows, and test rows, and revise the overview, class diagram, and data model in place. Never add a `## UC-…` section that repeats the skeleton.
 - **Cite, do not restate.** Link the use case, the rules, and the architecture-of-record.

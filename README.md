@@ -85,7 +85,7 @@ Copy it once per use case area, named for the lowercase area code, so your provi
 
 ```bash
 git -C ../course-templates pull
-cp ../course-templates/design/design-of-record.md docs/design/ord.md   # your area code, not ord
+cp ../course-templates/design/design-of-record.md docs/design/eva.md   # your area code, not eva
 ```
 
 The template's header gives the order to write it in (sketch it yourselves, then the agent drafts, then compare) and ends with the questions test, which goes in your pull request. The filled-in example is [Project Pulse's `not.md`](https://github.com/Washingtonwei/project-pulse/blob/main/docs/design/not.md).
