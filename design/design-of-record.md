@@ -17,7 +17,7 @@ _**What this document is.** The **design-of-record** for one use case area: how 
 
 _**What it is not.** A copy of your use cases. It **cites** `UC-*`, `FR-*`, and `BR-*` by identifier and never restates what the system shall do; it says only how. It is also not a transcript of the code. Once code exists, link to the files rather than describing every class, column, or getter._
 
-_**One document per area, not per use case.** Your area gains use cases over the term. The overview, the class diagram, and the data model are **revised in place** when it does. The sequence diagrams, the API contract rows, and the test rows are **appended**, one set per use case. Never add a `## UC-…` section that repeats the whole skeleton._
+_**One document per area, not per use case.** Your area gains use cases over the term. The overview, the class diagram, and the data model are **revised in place** when it does. The sequence diagrams, the API contract rows, and the test rows are **appended**, one set per use case. When built code is redesigned, one temporary section is allowed: `## Pending redesign`, after Open questions & risks, with one `###` entry per redesigned use case or FR listing what changes, each deleted by `/implement` once it is built; a replaced key decision stays, marked **Superseded**. Never add a `## UC-…` section that repeats the whole skeleton._
 
 _**How much to write.** Pin down what a wrong guess would break: a requirement, a business rule, a quality attribute, or the contract between two parts of your team. Leave the rest for the agent to derive while it builds: variable names, field types, exact JSON, column lengths. When you are unsure, ask which side of that line a detail falls on, not whether it is interesting._
 

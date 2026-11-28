@@ -67,7 +67,7 @@ _[In week 8 the spine extends past the use case: **business objective → featur
 
 _**Build** and **Verify** are two separate states, so that a use case which is built but untested stays visibly unverified rather than being absorbed into a single "done":_
 
-- _Build: `❌ Not started`, `📐 Designed` (its design pull request merged), `🟡 In progress`, `✅ Built`. It says nothing about tests._
+- _Build: `❌ Not started`, `📐 Designed` (its design pull request merged), `🟡 In progress` (partly built, or redesigned with a behavior change not yet built, its Design cell then containing `(redesign pending)`), `✅ Built`. It says nothing about tests._
 - _Verify: `✅ Verified` (tests cover the main flow and every extension, and pass), `🟡 Partial` (the Tests cell names the gap), `🔎 None`, or left blank while there is nothing built to verify._
 
 _**Release** is your **release plan**: the release the row's code ships in. It tracks the build only; a shipped row with missing tests keeps its Release, and the gap shows in Verify. Use `v0.1.0` (the proving slice, Checkpoint 2), `v0.2.0` (Checkpoint 3), `v1.0.0` (the December MVP), `Spring`, or `Out`. Every row has one by Checkpoint 2; an empty cell is work nobody planned. Place rows by risk first, then by what your client needs first, then by dependency, and change a Release cell only by pull request, saying why. Your client's agreement on scope by feature stays in vision and scope's MVP Scope section; this column carries it down to use cases. How to forecast from it: [Requirements Traceability](https://washingtonwei.github.io/cosc-40943/modules/traceability/#47-from-estimates-to-a-release-plan)._
@@ -78,7 +78,7 @@ _Worked example, from Project Pulse, which numbers its releases from its own tag
 |---|---|---|---|---|---|---|
 | `UC-EVA-submit-evaluation` | ✅ Built | ✅ Verified | `≤ v1.5.0` |  | `EvaluationController.addPeerEvaluation`, `SubmitTeamsEvaluations.vue` | `EvaluationServiceTest`, `EvaluationIntegrationTest` (main flow and extensions) |
 | `UC-NOT-remind-non-submitters` | 📐 Designed |  | `v1.6.0` | `design/not.md` |  |  |
-| `FR-NOT-weekly-reminder` | 📐 Designed |  | `v1.6.0` | `design/not.md` | `WeeklyReminderScheduler` (predates the amended requirement) | `WeeklyReminderSchedulerTest` (predates it too) |
+| `FR-NOT-weekly-reminder` | 🟡 In progress | 🟡 Partial | `v1.6.0` | `design/not.md (redesign pending)` | `WeeklyReminderScheduler` (predates the amended requirement) | `WeeklyReminderSchedulerTest` (asserts the old requirement; the amended one is untested) |
 | `UC-AI-critique` | ❌ Not started |  | `v1.8.0` |  |  |  |
 
 **Checks.**
