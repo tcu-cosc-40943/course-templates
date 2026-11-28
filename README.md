@@ -116,8 +116,8 @@ The comments in the template list what counts as evidence for code, for a specif
 
 | File | What it holds |
 |---|---|
-| `design.md` | `/design <UC-ID>`: the agent reads the use case, its rules, your architecture-of-record, and the existing code, drafts the area's design-of-record from the template, lists what it had to assume, and stops before any code |
-| `implement.md` | `/implement <UC-ID>`: the agent builds a merged design on a branch (any refactor first, then the trunk, then the leaves), writes a test for every row of the design's test list, checks the diff against your crosscutting concepts, and drafts the pull request |
+| `design.md` | `/design <UC-ID>`, or a non-use-case FR or subsystem in place of the use case: the agent reads the use case, its rules, your architecture-of-record, and the existing code, drafts the area's design-of-record from the template, lists what it had to assume, and stops before any code |
+| `implement.md` | `/implement <UC-ID>`, or the same FR or subsystem handle: the agent builds a merged design on a branch (any refactor first, then the trunk, then the leaves), writes a test for every row of the design's test list, checks the diff against your crosscutting concepts, and drafts the pull request |
 
 Copy them into your repository's root and merge them by pull request. Claude Code then runs them as slash commands:
 
