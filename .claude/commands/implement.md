@@ -1,11 +1,11 @@
 ---
-description: Build one use case from its merged design-of-record: plan, a refactor proposed first if one is needed, trunk then leaves, the design's test list, and a pull request. Run /design first.
-argument-hint: <UC-ID>  (for example /implement UC-EVA-submit-evaluation)
+description: Build one use case, non-use-case FR, or subsystem from its merged design-of-record: plan, a refactor proposed first if one is needed, trunk then leaves, the design's test list, and a pull request. Run /design first.
+argument-hint: <UC-ID, FR-ID, or subsystem>  (for example /implement UC-EVA-submit-evaluation or /implement FR-NOT-weekly-reminder)
 ---
 
-# /implement: build a use case from its design
+# /implement: build a use case, a non-use-case FR, or a subsystem from its design
 
-Take the use case named in `$ARGUMENTS` (for example `UC-EVA-submit-evaluation`) from its **design-of-record** to working, tested code in a pull request. This is the second of two build stages. The use case is the contract, its business rules and cited `FR-*` are the acceptance criteria, the glossary fixes the vocabulary, and **the design is how you build it**.
+Take the use case named in `$ARGUMENTS` (for example `UC-EVA-submit-evaluation`), or the non-use-case FR or subsystem named there (see the next section), from its **design-of-record** to working, tested code in a pull request. This is the second of two build stages. The use case is the contract, its business rules and cited `FR-*` are the acceptance criteria, the glossary fixes the vocabulary, and **the design is how you build it**.
 
 **Precondition: a merged design.** Confirm `docs/design/<area>.md` is on `main` and covers this use case: its *Realizes* line lists the `UC-*`, and its row in `docs/traceability.md` reads `📐 Designed`. **If there is no merged design, stop and tell the developer to run `/design <UC-ID>` first.** Do not design inside the build.
 
@@ -13,7 +13,17 @@ Take the use case named in `$ARGUMENTS` (for example `UC-EVA-submit-evaluation`)
 
 **The specification and the design are authoritative, not infallible. Challenge them.** When a step is ambiguous, a decision contradicts the code or the specification, or a constraint looks stale, **ask or push back. Do not silently comply and do not invent the missing detail.** Propose the specification edit, or update the design. Saying a better way exists is not building it: an improvement the use case does not need is proposed, never made unasked.
 
-If no UC-ID is given, ask which use case to build, or list the rows in `docs/traceability.md` whose **Build** is `📐 Designed`, earliest **Release** first.
+## Building a non-use-case FR or a subsystem
+
+The target in `$ARGUMENTS` can also be the handle `/design` was given: a non-use-case FR by its identifier (`/implement FR-NOT-weekly-reminder`) or a subsystem by name (`/implement AI proxy`). Find its design by the heading named after it, in the area document of its FRs or in the subsystem's own document, as `/design` placed it; that document's *Realizes* line lists the requirements it covers. The phases below apply, with these substitutions:
+
+- **The precondition** is met when the rows of the realized FRs in `docs/traceability.md` read `📐 Designed`. If no merged design names this FR or subsystem, stop and send the developer to `/design`, as for a use case.
+- **What to read.** Phase 1 reads each realized FR in `docs/requirements/software-requirements-specification.md`, and the requirements the design's *Realizes* and *Depends on* lines name, in place of the use case. Phase 2's acceptance criteria and Phase 6's Traces to name those FRs, or the subsystem, instead of a use case.
+- **The acceptance criteria** are each "shall" clause and each stated condition across the realized set, as the design's test list names them, in place of the main flow and its extensions. An untested clause is an untested requirement.
+- **Callers.** Build the machinery for the callers the design names, and no caller-facing behavior the design does not list. A caller use case is built by its own `/implement` run.
+- **The record.** Phase 5 updates the row of each realized FR in `docs/traceability.md`, and Verify counts its clauses and conditions in place of extensions. An `SI-*` has no row of its own and is covered through the FR it was built with.
+
+If no target is given, ask what to build, or list the rows in `docs/traceability.md` (use cases and non-use-case FRs) whose **Build** is `📐 Designed`, earliest **Release** first.
 
 The design was approved at its pull request, so there is no second approval of the design. **You stop in two places:** before any code, if the use case needs a refactor the design does not name; and after the trunk commit, so the developer reads the shared code before the leaves are built on it. Stop as well whenever the documents contradict each other or leave a decision open.
 

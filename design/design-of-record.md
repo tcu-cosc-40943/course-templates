@@ -4,7 +4,7 @@
 **Team:** _[Team NN]_
 **Area:** _[`UC-<AREA>`, for example `EVA`]_
 
-> **Realizes:** _[every `UC-<AREA>-<slug>` and `FR-<AREA>-<slug>` this document designs, appended as each is designed]_
+> **Realizes:** _[every `UC-<AREA>-<slug>`, `FR-<AREA>-<slug>`, and `SI-<slug>` this document designs, appended as each is designed]_
 > **Depends on:** _[the business rules, constraints, and cross-cutting `FR-*` it builds on, by identifier]_
 > **See:** _[links to the use cases, the specification, and your [architecture-of-record](architectural-design.md)]_
 > **Designed against:** _[the commit of `main` you read the code at, for example `a1b2c3d`]_
