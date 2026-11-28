@@ -2,7 +2,7 @@
 
 **Project:** _[Your project name]_
 **Team:** _[Team NN]_
-**Area:** _[`UC-<AREA>`, for example `ORD`]_
+**Area:** _[`UC-<AREA>`, for example `EVA`]_
 
 > **Realizes:** _[every `UC-<AREA>-<slug>` and `FR-<AREA>-<slug>` this document designs, appended as each is designed]_
 > **Depends on:** _[the business rules, constraints, and cross-cutting `FR-*` it builds on, by identifier]_
@@ -11,7 +11,7 @@
 
 ---
 
-_**How to use this template.** Copy it to `docs/design/<area>.md`, named for the lowercase area code (`ord.md` for `UC-ORD-*`). Instructions appear in italic square brackets; leave them in place until the document is stable, because the agent reads them on every later pass. The full worked example is Project Pulse's [`not.md`](https://github.com/Washingtonwei/project-pulse/blob/main/docs/design/not.md); read it for the shape, not for the answers._
+_**How to use this template.** Copy it to `docs/design/<area>.md`, named for the lowercase area code (`eva.md` for `UC-EVA-*`). Instructions appear in italic square brackets; leave them in place until the document is stable, because the agent reads them on every later pass. The full worked example is Project Pulse's [`not.md`](https://github.com/Washingtonwei/project-pulse/blob/main/docs/design/not.md); read it for the shape, not for the answers._
 
 _**What this document is.** The **design-of-record** for one use case area: how the code will realize its use cases, written **before** the code and approved before anyone builds from it. It is the last document your agent reads before it writes code, so anything it leaves out, the agent invents. Your [architecture-of-record](architectural-design.md) is the map of the whole system and stops at each component's responsibility; this document goes one level down, inside one area, against real code._
 
@@ -35,9 +35,9 @@ _**Write it in this order.** Each step is one person's or one pair's work, and t
 
 _[One paragraph: what this area does, which components of your [architecture-of-record](architectural-design.md) it lives in, and what it reads from or calls in other areas. Link the container diagram rather than redrawing it. If this design changes the architecture-of-record, say so here and list the change under "Changes to the architecture-of-record" below._
 
-_Example, from the Cafeteria Ordering System:_
+_Example, from Project Pulse's peer evaluation area, written as it would have read before its code existed:_
 
-_Ordering takes a patron's meal order from menu selection to a confirmed, payroll-charged order. It is the `ORD` area of the API ([containers](architectural-design.md#51-containers), [use case areas](architectural-design.md#52-use-case-areas-and-components)), reads the day's menu from `menu`, and asks the Payroll System to authorize the deduction before an order is stored (`DE-payroll-integration`).]_
+_Peer Evaluation takes a student's scores and comments for each teammate, herself included, for the previous week, and keeps them editable until that week's submission window closes. It is the `EVA` area of the REST API Application ([containers](architectural-design.md#51-containers), [use case areas](architectural-design.md#52-use-case-areas-and-components)), reads the rubric and the active weeks from the student's course section, and calls no external system.]_
 
 ## Components & classes
 
@@ -50,31 +50,42 @@ _Example:_]
 ```mermaid
 classDiagram
     direction LR
-    class OrderController {
+    class EvaluationController {
         <<new>>
-        +placeOrder(PlaceOrderRequest) Response
+        +addPeerEvaluation(PeerEvaluationDto) Result
     }
-    class OrderService {
+    class PeerEvaluationDtoToPeerEvaluationConverter {
         <<new>>
-        +placeOrder(patronId, items, deliverySlot) Order
+        +convert(PeerEvaluationDto) PeerEvaluation
     }
-    class PayrollClient {
+    class EvaluationService {
         <<new>>
-        +authorizeDeduction(patronId, amount) Authorization
+        +addPeerEvaluation(PeerEvaluation) PeerEvaluation
+        +updatePeerEvaluation(evaluationId, PeerEvaluation) PeerEvaluation
     }
-    class MenuService {
-        <<reused, menu>>
-        +findAvailableItems(date) List~MenuItem~
+    class UserUtils {
+        <<reused, system>>
+        +getUserId() Integer
     }
-    OrderController --> OrderService
-    OrderService --> MenuService
-    OrderService --> PayrollClient
+    class StudentService {
+        <<reused, student>>
+        +findStudentById(studentId) Student
+    }
+    class WeekKeys {
+        <<reused, system>>
+        +previousWeek(Clock) String
+    }
+    EvaluationController --> PeerEvaluationDtoToPeerEvaluationConverter
+    EvaluationController --> EvaluationService
+    PeerEvaluationDtoToPeerEvaluationConverter --> UserUtils
+    PeerEvaluationDtoToPeerEvaluationConverter --> StudentService
+    EvaluationService --> WeekKeys
 ```
 
-- _`ordering/OrderController` (new): the HTTP entry point; validates the request shape and nothing else._
-- _`ordering/OrderService` (new): checks the cut-off, availability, and payroll authorization, then stores the order._
-- _`ordering/PayrollClient` (new): the only class that talks to the Payroll System._
-- _`menu/MenuService` (reused): called through its service, never its repository._
+- _`evaluation/EvaluationController` (new): the HTTP entry point; checks the request shape and nothing else._
+- _`evaluation/converter/PeerEvaluationDtoToPeerEvaluationConverter` (new): takes the evaluator from the signed-in user, loads the evaluator and the evaluatee through `StudentService` (never its repository), and checks that every criterion of the evaluator's course section rubric is rated exactly once._
+- _`evaluation/EvaluationService` (new): checks the submission window, the team, and duplicates, then stores the evaluation. An edit runs the same window check._
+- _`system/UserUtils` and `system/WeekKeys` (reused): who is calling, and which week is the previous one by the injected clock._
 
 ## Sequence
 
@@ -82,36 +93,36 @@ _[One sequence diagram per use case for its main success scenario, plus one for 
 
 _Example:]_
 
-### _UC-ORD-place-order: placing an order_
+### _UC-EVA-submit-evaluation: submitting a peer evaluation_
 
 ```mermaid
 sequenceDiagram
-    actor P as Patron
-    participant WEB as Web front end
-    participant OC as OrderController
-    participant OS as OrderService
-    participant MS as MenuService
-    participant PC as PayrollClient
-    P->>WEB: Choose items and a delivery slot (steps 3 to 5)
-    WEB->>OC: POST /api/orders
-    OC->>OS: placeOrder(patronId from the session, items, slot)
-    alt after the 10:00 cut-off (3a)
-        OS-->>OC: refused, CUTOFF_PASSED
+    actor S as Student
+    participant SPA as Single Page Application
+    participant EC as EvaluationController
+    participant CV as PeerEvaluationDtoToPeerEvaluationConverter
+    participant ES as EvaluationService
+    S->>SPA: Score each teammate and confirm (steps 4 to 8)
+    SPA->>EC: POST /api/v1/evaluations, one per teammate (step 9)
+    EC->>CV: convert(evaluatee, week, ratings, comments)
+    alt a rubric criterion is missing or rated twice (4a)
+        CV-->>EC: refused, the ratings do not match the rubric
     else
-        OS->>MS: findAvailableItems(today)
-        alt an item sold out (4a)
-            OS-->>OC: refused, ITEM_UNAVAILABLE, with the item
+        CV-->>EC: the evaluation, with the evaluator from the token
+        EC->>ES: addPeerEvaluation(evaluation)
+        alt the week is not an active week (1a)
+            ES-->>EC: refused, not an active week
+        else the week is not the previous week (1b)
+            ES-->>EC: refused, outside the submission window
+        else the student is on no team (1c)
+            ES-->>EC: refused, not assigned to a team
+        else
+            ES->>ES: store the evaluation (step 9)
+            ES-->>EC: the stored evaluation
         end
-        OS->>PC: authorizeDeduction(patronId, total) (step 7)
-        alt patron not registered for deduction (7a)
-            PC-->>OS: declined
-            OS-->>OC: refused, PAYROLL_NOT_REGISTERED
-        end
-        OS->>OS: store the order (step 8)
-        OS-->>OC: order number, delivery slot
     end
-    OC-->>WEB: 201, or the error for the extension
-    WEB-->>P: Confirmation (step 9), or what to fix
+    EC-->>SPA: 200, or 400 with the rule's message
+    SPA-->>S: Confirmation (step 9), or what to fix
 ```
 
 ## API contract
@@ -122,8 +133,8 @@ _Example:]_
 
 | Endpoint or job | Caller (who may) | Request | Success | Errors, by extension |
 |---|---|---|---|---|
-| _`POST /api/orders`_ | _A signed-in patron, for herself only; the patron comes from the session, never the body_ | _Menu item ids and quantities, delivery slot id_ | _`201`: order number, total, delivery slot_ | _3a: `409 CUTOFF_PASSED`. 4a: `409 ITEM_UNAVAILABLE` naming the item. 7a: `402 PAYROLL_NOT_REGISTERED`. Not signed in: `401`._ |
-| _`GET /api/orders/{orderId}`_ | _The patron who placed it, or cafeteria staff_ | _None_ | _`200`: items, total, slot, status_ | _Another patron's order: `404`, so the response does not reveal that the order exists (`QS-cross-employee-order-denied`)._ |
+| _`POST /api/v1/evaluations`_ | _A signed-in student, for herself only; the evaluator comes from the token, never the body_ | _Evaluatee id, week, a score for each rubric criterion, public comment, private comment_ | _`200`: the stored evaluation_ | _1a, 1b, 1c, 4a: `400 INVALID_ARGUMENT` with the rule's message. A teammate already evaluated that week, an evaluatee on another team, or a caller who is not a student: `400 INVALID_ARGUMENT`. An evaluatee id that names no student: `404`. Not signed in: `401`._ |
+| _`PUT /api/v1/evaluations/{evaluationId}`_ | _The student who submitted it, while its window is open (step 7)_ | _The same fields as the `POST`. Only the scores and comments change; the stored week wins over the one sent_ | _`200`: the updated evaluation_ | _Window closed (1b): `400 INVALID_ARGUMENT`. Another student's evaluation: `403`, refused by the route rule, which lets only the evaluation's evaluator edit it._ |
 
 ## Key decisions
 
@@ -133,9 +144,9 @@ _A decision that affects the whole system rather than this area is an architectu
 
 _Example:]_
 
-**_When the payroll deduction is authorized._** _Before the order is stored, in the same request. Rejected: storing the order first and charging later in a batch, because a declined deduction would then cancel an order the kitchen has already started (`ROB-order-persisted` promises the patron that a confirmed order stands)._
+**_Where the evaluator comes from._** _From the signed-in user's token, read through `UserUtils`, never from the request body (architecture-of-record 8.1, authorization). Rejected: an evaluator id in the body, because any student could then submit an evaluation in a teammate's name._
 
-**_How the cut-off is checked._** _On the server, against the injected clock, in the cafeteria's time zone (architecture-of-record 8.2, time). Rejected: hiding the order button after 10:00 in the browser, because the browser's clock is the patron's and the check would be advisory._
+**_How the window closes._** _On the server, against the injected clock, on every submit and every edit: an evaluation is editable exactly while its week is still the previous week (`BR-evaluation-submission-window`, `BR-evaluation-editable-until-close`, architecture-of-record 8.2, time). Rejected: a "final" flag that a scheduled job sets when the week rolls over, because the clock already says when the window closed, and a flag could disagree with it._
 
 ## Data model
 
@@ -153,11 +164,14 @@ _Example:]_
 
 | Use case, flow | Level | Asserts |
 |---|---|---|
-| _UC-ORD-place-order main_ | _integration_ | _A registered patron's order before 10:00 is stored, charged once, and returned with an order number_ |
-| _UC-ORD-place-order 3a_ | _unit_ | _At 10:00:01 by the injected clock the order is refused with `CUTOFF_PASSED` and nothing is stored or charged_ |
-| _UC-ORD-place-order 4a_ | _unit_ | _A sold-out item refuses the whole order and names the item_ |
-| _UC-ORD-place-order 7a_ | _integration_ | _A declined deduction stores no order_ |
-| _Authorization_ | _integration_ | _A patron requesting another patron's order gets `404`_ |
+| _UC-EVA-submit-evaluation main_ | _integration_ | _A student on a team evaluates a teammate for the previous week; the evaluation is stored, and its total score is the sum of its ratings_ |
+| _UC-EVA-submit-evaluation 1a_ | _unit_ | _With the injected clock in the course section's first active week, the evaluation is refused and nothing is stored_ |
+| _UC-EVA-submit-evaluation 1b_ | _unit_ | _An evaluation for two weeks ago is refused, and so is an edit after its window has closed_ |
+| _UC-EVA-submit-evaluation 1c_ | _unit_ | _A student on no team is refused_ |
+| _UC-EVA-submit-evaluation 4a_ | _unit_ | _A submission that skips a rubric criterion, or rates one twice, is refused_ |
+| _Duplicate_ | _unit_ | _A second evaluation of the same teammate for the same week is refused and nothing is stored_ |
+| _Evaluatee on another team_ | _unit_ | _An evaluation of a student on another team is refused and nothing is stored_ |
+| _Authorization_ | _integration_ | _A student updating another student's evaluation gets `403`_ |
 
 ## Changes to the architecture-of-record
 

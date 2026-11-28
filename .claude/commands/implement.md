@@ -1,11 +1,11 @@
 ---
 description: Build one use case from its merged design-of-record: plan, a refactor proposed first if one is needed, trunk then leaves, the design's test list, and a pull request. Run /design first.
-argument-hint: <UC-ID>  (for example /implement UC-ORD-place-order)
+argument-hint: <UC-ID>  (for example /implement UC-EVA-submit-evaluation)
 ---
 
 # /implement: build a use case from its design
 
-Take the use case named in `$ARGUMENTS` (for example `UC-ORD-place-order`) from its **design-of-record** to working, tested code in a pull request. This is the second of two build stages. The use case is the contract, its business rules and cited `FR-*` are the acceptance criteria, the glossary fixes the vocabulary, and **the design is how you build it**.
+Take the use case named in `$ARGUMENTS` (for example `UC-EVA-submit-evaluation`) from its **design-of-record** to working, tested code in a pull request. This is the second of two build stages. The use case is the contract, its business rules and cited `FR-*` are the acceptance criteria, the glossary fixes the vocabulary, and **the design is how you build it**.
 
 **Precondition: a merged design.** Confirm `docs/design/<area>.md` is on `main` and covers this use case: its *Realizes* line lists the `UC-*`, and its row in `docs/traceability.md` reads `📐 Designed`. **If there is no merged design, stop and tell the developer to run `/design <UC-ID>` first.** Do not design inside the build.
 
