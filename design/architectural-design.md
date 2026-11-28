@@ -24,8 +24,8 @@ _[The new identifiers this document creates. Everything else it cites keeps the 
 | Space | For | Example |
 |---|---|---|
 | `KD-<slug>` | Key architectural decisions | `KD-single-deployable` |
-| `QS-<slug>` | Quality scenarios | `QS-cross-employee-order-denied` |
-| `TRI-<slug>` | Technical risks (the `T` keeps them apart from the business `RI-*` in vision and scope) | `TRI-payroll-api-unavailable` |
+| `QS-<slug>` | Quality scenarios | `QS-cross-team-denied` |
+| `TRI-<slug>` | Technical risks (the `T` keeps them apart from the business `RI-*` in vision and scope) | `TRI-llm-unavailable` |
 | `TD-<slug>` | Technical debt the architecture knowingly carries | `TD-no-rate-limiting` |
 
 _[These are slugs, like every other identifier in your project, so an inserted decision renumbers nothing and a citation says what it points at. Project Pulse uses the same form: `KD-modular-monolith`, `QS-cross-team-denial`.]_
@@ -52,13 +52,13 @@ _[The **three** quality attributes that most shape your system, in priority orde
 
 _These are usually the top rows of the table in section 9.1, and the two do different jobs. Here, say why each goal matters to your client. There, say which decision it forces._
 
-_Example, from the Cafeteria Ordering System:]_
+_Example, from Project Pulse:]_
 
 | Priority | Quality goal | Specification handles | Why it shapes the architecture |
 |---|---|---|---|
-| 1 | _Payroll data stays confidential_ | _`SEC-payroll-auth`, `SEC-employee-own-orders`_ | _Orders are paid by payroll deduction, so an order record carries an employee's pay account. A leak is a legal problem, not a bug._ |
-| 2 | _Orders placed before 10:00 are not lost_ | _`ROB-order-persisted`, `AVL-lunch-window`_ | _The lunch rush is the only load that matters, and a lost order is a hungry employee with a payroll charge._ |
-| 3 | _Cafeteria staff can run it without IT_ | _`CO-no-dedicated-ops`, `MNT-menu-self-service`_ | _Nobody on the cafeteria side can deploy, restart, or patch anything._ |
+| 1 | _Student records stay confidential_ | _`SEC-grades-confidential`_ | _The system holds peer evaluation scores and private comments, which FERPA protects. A leak is a legal problem, not a bug._ |
+| 2 | _One person can run it_ | _`CO-no-ops-team`, `AVL-uptime`_ | _One instructor deploys and runs Project Pulse, with no operations team, so anything that needs tending will not be tended._ |
+| 3 | _Students can extend it_ | _`MNT-feature-locality`_ | _Senior design students add features every year, so a change to one feature must stay inside that feature._ |
 
 ### 1.3 Stakeholders
 
@@ -90,24 +90,20 @@ _Example:]_
 
 ```mermaid
 C4Context
-    title System Context: Cafeteria Ordering System
+    title System Context: Project Pulse
 
-    Person(patron, "Patron", "Employee ordering a meal")
-    Person(staff, "Cafeteria Staff", "Prepares and delivers orders")
-    Person(menu, "Menu Manager", "Maintains the daily menu")
+    Person(student, "Student", "Member of a team in a course section")
+    Person(instructor, "Instructor", "Teaches a course section; a course admin is an instructor who also runs the course")
 
-    System(cos, "Cafeteria Ordering System", "Takes, prepares, and delivers meal orders")
+    System(pulse, "Project Pulse", "Tracks team performance and supports requirements authoring")
 
-    System_Ext(payroll, "Payroll System", "Deducts meal payments from pay")
-    System_Ext(sso, "Corporate Sign-On", "Authenticates employees")
-    System_Ext(email, "Corporate Email", "Order confirmations")
+    System_Ext(gmail, "Gmail", "Email system")
+    System_Ext(llm, "LLM Service", "AI-assisted requirement review")
 
-    Rel(patron, cos, "Orders meals")
-    Rel(staff, cos, "Fulfils orders")
-    Rel(menu, cos, "Edits menu")
-    Rel(cos, payroll, "Submits payment requests")
-    Rel(cos, sso, "Verifies identity")
-    Rel(cos, email, "Sends confirmations")
+    Rel(student, pulse, "Submits work, authors requirements")
+    Rel(instructor, pulse, "Manages courses, reviews requirements")
+    Rel(pulse, gmail, "Sends emails using")
+    Rel(pulse, llm, "Requests AI review")
 ```
 
 ## 4. Solution Strategy
@@ -120,9 +116,9 @@ _Each bullet is one sentence, and it cites what explains it: the key decision in
 
 _Example:]_
 
-- _**One deployable with one managed database** (`KD-deployment-shape`), because nobody on the cafeteria side can operate infrastructure (quality goal 3)._
-- _**Payment is the only component that talks to the Payroll System** (section 5.2), so payroll data crosses the trust boundary in exactly one place (quality goal 1)._
-- _**Divided by use case area**, Ordering, Menu, and Delivery, each owning its own rules, so a menu change never touches ordering code (quality goal 3, `MNT-menu-self-service`)._
+- _**One deployable with one managed database** (`KD-deployment-shape`), because one person runs the system (quality goal 2)._
+- _**The AI proxy is the only component that calls the LLM service** (section 5.2), so student work leaves the system in exactly one place, and an outage is handled in one place (quality goal 1, `FR-AI-degradation`)._
+- _**Divided by use case area**, Peer Evaluation, Weekly Activity Report, Rubric, and the rest, each owning its own rules, so a change to peer evaluations never touches activity reports (quality goal 3)._
 
 ## 5. Building Block View
 
@@ -142,33 +138,31 @@ _Example:]_
 
 ```mermaid
 C4Container
-    title Container Diagram: Cafeteria Ordering System
+    title Container Diagram: Project Pulse
 
-    Person(patron, "Patron", "Employee ordering a meal")
-    Person(staff, "Cafeteria Staff", "Prepares and delivers orders")
-    Person(menu, "Menu Manager", "Maintains the daily menu")
+    Person(student, "Student", "Member of a team in a course section")
+    Person(instructor, "Instructor", "Teaches a course section")
 
-    System_Boundary(cos, "Cafeteria Ordering System") {
-        Container(web, "Web Front End", "Vue.js", "Ordering, menu, and fulfilment screens in the browser")
-        Container(app, "Application", "Java / Spring Boot", "Every business rule; serves the front end")
-        ContainerDb(db, "Database", "PostgreSQL", "Orders, menus, and delivery slots")
+    System_Boundary(pulse, "Project Pulse") {
+        Container(spa, "Single Page Application", "Vue 3 / TypeScript", "Every screen, in the browser")
+        Container(api, "REST API Application", "Java / Spring Boot", "Every business rule; serves the front end")
+        ContainerDb(db, "Database", "MySQL", "Courses, teams, reports, peer evaluations, and requirements")
+        ContainerDb(blob, "Blob Storage", "Azure Blob Storage", "Uploaded project source material")
     }
 
-    System_Ext(payroll, "Payroll System", "Deducts meal payments from pay")
-    System_Ext(sso, "Corporate Sign-On", "Authenticates employees")
-    System_Ext(email, "Corporate Email", "Order confirmations")
+    System_Ext(gmail, "Gmail", "Email system")
+    System_Ext(llm, "LLM Service", "AI-assisted requirement review")
 
-    Rel(patron, web, "Orders meals", "HTTPS")
-    Rel(staff, web, "Fulfils orders", "HTTPS")
-    Rel(menu, web, "Edits menu", "HTTPS")
-    Rel(web, app, "Calls", "JSON/HTTPS")
-    Rel(app, db, "Reads and writes", "JDBC")
-    Rel(app, payroll, "Submits payment requests", "not yet known: TRI-payroll-api-unavailable")
-    Rel(app, sso, "Verifies identity", "OpenID Connect")
-    Rel(app, email, "Sends confirmations", "SMTP")
+    Rel(student, spa, "Uses", "HTTPS")
+    Rel(instructor, spa, "Uses", "HTTPS")
+    Rel(spa, api, "Calls", "JSON/HTTPS")
+    Rel(api, db, "Reads and writes", "JDBC")
+    Rel(api, blob, "Stores and reads files", "HTTPS")
+    Rel(api, gmail, "Sends email", "SMTP")
+    Rel(api, llm, "Requests AI review", "HTTPS")
 ```
 
-_The system is one application and one database because nobody on the cafeteria side can operate more (`KD-deployment-shape`). The front end is a separate container only because it runs in the browser; it ships inside the application's package._
+_The system is one application and one database because one person runs it (`KD-deployment-shape`). The front end is a separate container only because it runs in the browser; it ships inside the application's package. Uploaded files sit in Blob Storage because large binary files do not belong in the database._
 
 ### 5.2 Use case areas and components
 
@@ -182,12 +176,12 @@ _Example:]_
 
 | Use case area | Component | Responsibility | Depends on | Status |
 |---|---|---|---|---|
-| _`ORD`_ | _Ordering_ | _Owns an order from placement to cancellation, and the cut-off rules_ | _Menu, Payment, Identity_ | _provisional_ |
-| _`MNU`_ | _Menu_ | _Owns daily menus and item availability_ | _Identity_ | _provisional_ |
-| _`DEL`_ | _Delivery_ | _Owns delivery slots and the staff's fulfilment queue_ | _Ordering, Notification_ | _provisional_ |
-| _(cross-cutting)_ | _Payment_ | _The only component that talks to the Payroll System_ | _Payroll System_ | _provisional_ |
-| _(cross-cutting)_ | _Identity_ | _Maps a signed-on employee to a role_ | _Corporate Sign-On_ | _provisional_ |
-| _(cross-cutting)_ | _Notification_ | _Sends every email the system sends_ | _Corporate Email_ | _provisional_ |
+| _`EVA`_ | _Peer Evaluation_ | _Owns a peer evaluation from submission to the close of its window, and who may see which part of it_ | _Rubric, Team, Identity_ | _proven_ |
+| _`WAR`_ | _Weekly Activity Report_ | _Owns a student's activities for a week, and which weeks are still owed_ | _Team, Identity_ | _proven_ |
+| _`RUB`_ | _Rubric_ | _Owns rubrics and their criteria_ | _Identity_ | _proven_ |
+| _(cross-cutting)_ | _AI proxy_ | _The only component that calls the LLM service_ | _LLM Service_ | _proven_ |
+| _(cross-cutting)_ | _Identity_ | _Signs a user in and maps them to a role_ | _none_ | _proven_ |
+| _(cross-cutting)_ | _Notification_ | _Sends every email the system sends_ | _Gmail_ | _proven_ |
 
 _[Check before Checkpoint 1: every area in your use case file appears in the first column, and every external system in section 3 appears in some Depends on cell.]_
 
@@ -219,7 +213,7 @@ _[Four short paragraphs. The last three each cite the `SEC-*` requirement they a
 
 - _**Trust boundary:** the line between what you control and what you do not. Name the container that is the boundary and what sits outside it (the browser, every external system). Every request that crosses it is authenticated and authorized, and it covers every path your deployable answers, framework endpoints included. Project Pulse's Security & Compliance section shows the shape in three sentences._
 - _**Authentication:** how a user proves who they are, and who issues the credential (your system, the client's sign-on, a third party)._
-- _**Authorization:** the roles, and the rule for what a user may see beyond their role (a patron sees only their own orders). The second part is where most real breaches happen._
+- _**Authorization:** the roles, and the rule for what a user may see beyond their role (a student sees only their own team's work). The second part is where most real breaches happen._
 - _**Sensitive data:** what personal or regulated data the system stores, in which container, and which external systems receive any of it. How long it is kept and how it is disposed of are already in section 7.4 of your specification; cite them._
 
 _Secrets (passwords, API keys, connection strings) never appear in this document or in the repository. Say where they will live, not what they are.]_
@@ -244,11 +238,11 @@ _One short subsection each: the rule in one sentence, why, and the file that sho
 | _Testing_ | _Which kinds of test, at which layer, with what data?_ | _The first pull request_ |
 | _Static analysis (written when your gate goes in)_ | _Which analyzers and formatter run, what command is the gate, and how is a finding settled: fixed, turned off with a reason, or baselined?_ | _The first pull request an agent opens_ |
 
-_Examples, from the Cafeteria Ordering System:_
+_Examples, from Project Pulse:_
 
-**8.2.1 Error handling.** _Every endpoint returns `{ "ok": false, "error": { "code", "message" } }` on failure, produced by one exception handler; no controller builds its own error body, and no response carries an exception's own message. Why: the ordering screen and the menu screen share one error display, and an exception's message can reveal the database behind it. Shown in: `ApiExceptionHandler`._
+**8.2.1 Error handling.** _Every endpoint returns `{ "flag", "code", "message", "data" }`, and a failure gets that shape from one exception handler; no controller builds its own error body. Why: every screen shows failures through one shared request handler, which relies on that shape. Shown in: `ExceptionHandlerAdvice`._
 
-**8.2.7 Logging.** _Each class that logs has one logger. `error` means someone must act, `warn` that something degraded, `info` a business event, `debug` detail for development. Every caught exception that is not rethrown is logged with its stack trace, the one exception handler's included. Log identifiers, never content: an order or user ID, never an email address, a password, a token, or a request body. Logs go to standard output, where the platform collects them. Why: the first production bug is found from its log line or not at all, and a log is copied to more places than the database is. Shown in: `ApiExceptionHandler`, `OrderService`._
+**8.2.7 Logging.** _Each class that logs has one logger. `error` means someone must act, `warn` that something degraded, `info` a business event, `debug` detail for development. Every caught exception that is not rethrown is logged with its stack trace, the one exception handler's included. Log identifiers, never content: a student or team ID, never an email address, a password, a token, or a request body. Logs go to standard output, where the platform collects them. Why: the first production bug is found from its log line or not at all, and a log is copied to more places than the database is. Shown in: `ExceptionHandlerAdvice`, `WeeklyReminderScheduler`._
 
 ## 9. Architecture Decisions
 
@@ -264,7 +258,7 @@ _List three to six, ranked by importance to your client times difficulty to achi
 
 | Rank | Requirement | Specification handles | Importance × difficulty | Drives |
 |---|---|---|---|---|
-| 1 | _Payroll data confidential_ | _`SEC-payroll-auth`_ | _High × Medium_ | _`KD-payment-isolated`_ |
+| 1 | _Student records confidential_ | _`SEC-grades-confidential`_ | _High × High_ | _`KD-self-issued-jwt`_ |
 
 ### 9.2 Key decisions
 
@@ -278,10 +272,10 @@ _Example:]_
 
 **`KD-deployment-shape`: one deployable.** _Accepted._
 
-- **Driving requirements:** _`CO-no-dedicated-ops`; `AVL-lunch-window`._
-- **Context:** _About 400 patrons, one lunch peak a day, and nobody on the client side who can operate infrastructure._
+- **Driving requirements:** _`CO-no-ops-team`; `AVL-uptime`._
+- **Context:** _About 70 students and a few instructors, up to 100 users at once, and one person who deploys and runs the system._
 - **Decision:** _The front end is built into the back end's package and ships as one container to one host, with one managed database._
-- **Rejected:** _Separate services for ordering, menu, and delivery. They would add network calls, three deployments, and failure modes between them, to solve a scaling problem 400 users do not have._
+- **Rejected:** _Separate services for performance tracking and requirements authoring. They would add network calls, two deployments, and failure modes between them, to solve a scaling problem 100 users do not have._
 - **Trade-off:** _The system scales only as a whole, and a bad deploy takes all of it down._
 
 ## 10. Quality Requirements
@@ -300,7 +294,7 @@ _**Verified by** names the test, or the repeatable manual check, that shows the 
 
 | ID | Source and stimulus | Environment | Response | Measure | Verified by |
 |---|---|---|---|---|---|
-| _`QS-cross-employee-order-denied`_ | _A signed-on patron requests another patron's order by its ID_ | _Normal operation_ | _Refused before any order data is read_ | _Every such request is refused and returns no order fields (`SEC-employee-own-orders`)_ | _An integration test that signs in as one patron and requests another patron's order_ |
+| _`QS-cross-team-denied`_ | _A signed-in student requests another team's peer evaluation by its ID_ | _Normal operation_ | _Refused before any peer evaluation data is read_ | _Every such request is refused and returns no peer evaluation fields (`SEC-grades-confidential`)_ | _An integration test that signs in as a student on one team and requests a peer evaluation from another team_ |
 
 ## 11. Risks and Technical Debt
 
@@ -314,7 +308,7 @@ _A risk written as a category ("security", "performance") is not a risk. Write t
 
 | ID | Type | What could go wrong, and what it breaks | Mitigation or fix | Cites |
 |---|---|---|---|---|
-| _`TRI-payroll-api-unavailable`_ | _Risk_ | _Nobody has seen the Payroll System's interface. If it only accepts a nightly batch file, ordering cannot confirm payment at order time._ | _Ask for the interface document at the next client meeting; build Payment against a stub until then._ | _`DE-payroll-integration`, `OI-4`_ |
+| _`TRI-llm-unavailable`_ | _Risk_ | _Every AI assistant depends on one external LLM service. If it is down or slow, a student waiting for AI review sees nothing, and if the provider changes its price or its model, the course pays for it._ | _A timeout with a clear message and a retry, and one AI proxy, so another provider replaces it in one place._ | _`DE-llm-service`, `FR-AI-degradation`_ |
 | _`TRI-public-grade-database`_ | _Risk_ | _The peer evaluation database holds student grades, is reachable from the public internet, and has no rate limiting. Anyone who finds its address can try passwords against it without being slowed down._ | _Allow connections only from the application's own network._ | _`SEC-grades-confidential`_ |
 
 ## 12. Glossary
